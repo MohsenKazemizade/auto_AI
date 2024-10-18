@@ -1,0 +1,24 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL") // Make sure you have DATABASE_URL set up in your .env file
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model AsaUser {
+  ID                 Int      @id @default(autoincrement()) @map("ID")
+  UserName           String   @map("UserName")
+  Password           String   @map("Password")
+  AccessLevel        String   @map("AccessLevel")
+  Owner              String?  @map("Owner")
+  PhoneNumber        String?  @map("PhoneNumber")
+  SubmitDate         DateTime @map("SubmitDate")
+  SubmitTime         DateTime @map("SubmitTime")
+  RepresentativeCode String?  @map("RepresentativeCode")
+
+  @@map("asa_users") // Map the model to the table name in MySQL
+}
