@@ -1,12 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Link from 'next/link';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { login } from '@/features/auth/authSlice';
-import { FaTwitter, FaFacebookF, FaLinkedinIn, FaGoogle } from 'react-icons/fa';
+import { FaEyeSlash, FaEye } from 'react-icons/fa';
 
 interface LoginFormInputs {
   username: string;
@@ -16,15 +15,22 @@ interface LoginFormInputs {
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.auth);
-
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<LoginFormInputs>();
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    dispatch(login({ username: data.username, password: data.password }));
+    dispatch(login({ username: data.username, password: data.password })).then(
+      (result) => {
+        if (result.meta.requestStatus === 'rejected') {
+          reset(); // Clear fields if login fails
+        }
+      }
+    );
   };
 
   return (
@@ -52,15 +58,17 @@ const Login: React.FC = () => {
               برای ورود نام کاربری و رمز عبور خود را وارد کنید
             </p>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-              <label htmlFor="username" className="text-left text-sm mb-1">
+              <label htmlFor="username" className="text-right text-sm mb-1">
                 نام کاربری
               </label>
               <input
                 type="text"
                 id="username"
-                {...register('username', { required: 'Username is required' })}
+                {...register('username', {
+                  required: 'نام کاربری را وارد کنید',
+                })}
                 placeholder="نام کاربری را وارد کنید"
-                className="p-2 mb-4 border border-gray-300 rounded"
+                className="p-2 mb-4 border border-gray-300 rounded text-left justy"
               />
               {errors.username && (
                 <p className="text-red-500 text-sm">
@@ -68,20 +76,26 @@ const Login: React.FC = () => {
                 </p>
               )}
 
-              <label htmlFor="password" className="text-left text-sm mb-1">
+              <label htmlFor="password" className="text-right text-sm mb-1">
                 رمز عبور
               </label>
               <div className="relative flex items-center border border-gray-300 rounded mb-4">
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="p-2"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   {...register('password', {
-                    required: 'Password is required',
+                    required: 'رمز عبور را وارد کنید',
                   })}
                   placeholder="رمز عبور را وارد کنید"
-                  className="p-2 flex-1 outline-none"
+                  className="p-2 flex-1 outline-none text-left"
                 />
-                <span className="cursor-pointer p-2">👁️</span>
               </div>
               {errors.password && (
                 <p className="text-red-500 text-sm">
@@ -89,52 +103,32 @@ const Login: React.FC = () => {
                 </p>
               )}
 
-              <div className="flex items-center mb-4">
-                <input type="checkbox" id="keep-signed-in" className="mr-2" />
-                <label htmlFor="keep-signed-in" className="text-sm">
-                  Keep Me Signed In
-                </label>
-              </div>
-
               <button
                 type="submit"
-                className="bg-black text-white py-2 rounded hover:bg-gray-800 transition"
+                className="bg-black text-white py-2 mt-4 rounded hover:bg-gray-800 transition"
                 disabled={loading}
               >
-                {loading ? 'Logging in...' : 'Sign In'}
+                {loading ? 'در حال بارگزاری...' : 'ورود'}
               </button>
-              {error && <p className="text-red-500 mt-2">{error}</p>}
+              {error && (
+                <p className="text-red-500 mt-2">
+                  نام کاربری یا رمز عبور اشتباه است
+                </p>
+              )}
             </form>
-
-            <div className="mt-8">
-              <p className="text-sm text-gray-600 mb-4">Or continue with</p>
-              <div className="flex justify-center space-x-4">
-                <a href="#" className="text-blue-400">
-                  <FaTwitter size={24} />
-                </a>
-                <a href="#" className="text-blue-600">
-                  <FaFacebookF size={24} />
-                </a>
-                <a href="#" className="text-blue-700">
-                  <FaLinkedinIn size={24} />
-                </a>
-                <a href="#" className="text-red-500">
-                  <FaGoogle size={24} />
-                </a>
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <p className="text-sm text-gray-600">
-                DON&apos;T HAVE AN ACCOUNT?{' '}
-                <Link href="/register" className="text-blue-500">
-                  SIGN UP
-                </Link>
-              </p>
-            </div>
           </div>
           <footer className="absolute bottom-4 mt-8 text-center text-xs text-gray-500">
-            <p>Copyright 2024, Dashcode All Rights Reserved.</p>
+            <p dir="ltr">
+              © 2024, Designed & Developed by{' '}
+              <a
+                href="https://mohsenkazemi.com/"
+                target="_blank"
+                className="text-blue-500 hover:underline"
+              >
+                Mohsen Kazemi
+              </a>
+              . All Rights Reserved.
+            </p>
           </footer>
         </div>
       </div>
