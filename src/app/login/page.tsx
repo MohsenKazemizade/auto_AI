@@ -38,8 +38,8 @@ const Login: React.FC = () => {
             className="absolute inset-0 w-full h-full object-cover opacity-30 "
           />
           <div className="z-10 text-center">
-            <h1 className="text-4xl font-semibold text-black">
-              Unlock your Project <span className="font-bold">performance</span>
+            <h1 className="text-4xl text-black">
+              آسامسیر <span className="font-bold">ناوگان</span>
             </h1>
           </div>
         </div>
@@ -47,19 +47,19 @@ const Login: React.FC = () => {
         {/* Right Section */}
         <div className="flex-1 flex flex-col items-center justify-center p-8">
           <div className="w-full max-w-sm text-center">
-            <h2 className="text-2xl font-bold mb-4">Sign In</h2>
+            <h2 className="text-2xl font-bold mb-4">خوش آمدید</h2>
             <p className="text-sm text-gray-600 mb-8">
-              Sign in to your account to start using DashCode
+              برای ورود نام کاربری و رمز عبور خود را وارد کنید
             </p>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
               <label htmlFor="username" className="text-left text-sm mb-1">
-                Username
+                نام کاربری
               </label>
               <input
                 type="text"
                 id="username"
                 {...register('username', { required: 'Username is required' })}
-                placeholder="Enter your username"
+                placeholder="نام کاربری را وارد کنید"
                 className="p-2 mb-4 border border-gray-300 rounded"
               />
               {errors.username && (
@@ -69,7 +69,7 @@ const Login: React.FC = () => {
               )}
 
               <label htmlFor="password" className="text-left text-sm mb-1">
-                Password
+                رمز عبور
               </label>
               <div className="relative flex items-center border border-gray-300 rounded mb-4">
                 <input
@@ -78,7 +78,7 @@ const Login: React.FC = () => {
                   {...register('password', {
                     required: 'Password is required',
                   })}
-                  placeholder="Enter your password"
+                  placeholder="رمز عبور را وارد کنید"
                   className="p-2 flex-1 outline-none"
                 />
                 <span className="cursor-pointer p-2">👁️</span>
