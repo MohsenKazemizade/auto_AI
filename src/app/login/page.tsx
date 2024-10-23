@@ -6,7 +6,7 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { login } from '@/features/auth/authSlice';
 import { FaEyeSlash, FaEye } from 'react-icons/fa';
-
+import { useRouter } from 'next/navigation';
 interface LoginFormInputs {
   username: string;
   password: string;
@@ -22,15 +22,23 @@ const Login: React.FC = () => {
     formState: { errors },
     reset,
   } = useForm<LoginFormInputs>();
-
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    dispatch(login({ username: data.username, password: data.password })).then(
-      (result) => {
-        if (result.meta.requestStatus === 'rejected') {
-          reset(); // Clear fields if login fails
-        }
-      }
+  const router = useRouter();
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    const result = await dispatch(
+      login({ username: data.username, password: data.password })
     );
+
+    if (result.meta.requestStatus === 'fulfilled') {
+      const token = result.payload;
+      console.log(token);
+      if (token) {
+        router.push('/dashboard');
+      } else {
+        reset();
+      }
+    } else {
+      reset();
+    }
   };
 
   return (
