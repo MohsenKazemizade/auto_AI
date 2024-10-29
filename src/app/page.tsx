@@ -1,34 +1,27 @@
+// src/app/page.tsx
 import React from 'react';
-import { GetServerSideProps } from 'next';
+import { redirect } from 'next/navigation';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Footer from '../components/Footer';
 import { getSession } from '../actions/sessionActions';
 
-const Home: React.FC = () => (
-  <div>
-    <Header />
-    <Hero />
-    <Footer />
-  </div>
-);
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  // Get the session server-side
+const Home = async () => {
   const session = await getSession();
 
-  // If a session exists, redirect to the dashboard
+  // Redirect to dashboard if the user is authenticated
   if (session?.userId) {
-    return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false,
-      },
-    };
+    redirect('/dashboard');
   }
 
-  // Otherwise, render the landing page
-  return { props: {} };
+  // Render the landing page if not authenticated
+  return (
+    <div>
+      <Header />
+      <Hero />
+      <Footer />
+    </div>
+  );
 };
 
 export default Home;

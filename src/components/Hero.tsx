@@ -14,7 +14,7 @@ const Hero: React.FC = () => (
     {/* Text Content */}
     <div className="relative z-10 text-center">
       <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-        به خدمات حمل و نقل گاز ما خوش آمدید
+        به خدمات حمل و نقل ما خوش آمدید
       </h1>
       <p className="text-xl md:text-2xl text-gray-200">
         راهکارهای حمل و نقل مطمئن و کارآمد گاز ال‌پی‌جی
