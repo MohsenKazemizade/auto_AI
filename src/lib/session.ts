@@ -2,7 +2,7 @@ import { SessionOptions } from 'iron-session';
 
 // Define the session data type
 export interface SessionData {
-  userId?: bigint;
+  userId?: bigint | string;
   username?: string;
   password?: string;
   accesslevel?: string;

@@ -1,7 +1,7 @@
 // src/components/Hero.tsx
 import React from 'react';
 
-const Hero: React.FC = () => (
+const Hero = () => (
   <section
     className="relative h-screen bg-cover bg-center flex flex-col justify-center items-center"
     style={{
