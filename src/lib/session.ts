@@ -11,11 +11,7 @@ export interface SessionData {
 // Session configuration
 export const sessionOptions: SessionOptions = {
   password: process.env.SECRET_COOKIE_PASSWORD!,
-<<<<<<< HEAD
-  cookieName: 'my-app-session',
-=======
   cookieName: 'asamasir-session',
->>>>>>> feature/landing-page
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
