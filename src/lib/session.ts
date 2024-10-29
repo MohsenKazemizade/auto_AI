@@ -11,7 +11,7 @@ export interface SessionData {
 // Session configuration
 export const sessionOptions: SessionOptions = {
   password: process.env.SECRET_COOKIE_PASSWORD!,
-  cookieName: 'my-app-session',
+  cookieName: 'asamasir-session',
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
