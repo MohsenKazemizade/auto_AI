@@ -1,7 +1,6 @@
 // src/components/Header.tsx
 import Link from 'next/link';
 import React from 'react';
-import Link from 'next/link';
 
 const Header: React.FC = () => (
   <header className="bg-white shadow-md py-4">
