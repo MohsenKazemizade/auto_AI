@@ -12,36 +12,38 @@ const prisma = new PrismaClient();
 // Retrieve the session
 export const getSession = async () => {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
-
   return session;
 };
 
-export const login = async (formData: FormData) => {
-  const session = await getSession();
-  const formUsername = formData.get('username') as string;
-  const formPassword = formData.get('password') as string;
+// Login form submission action
+export const handleLoginSubmit = async (formData: FormData) => {
+  const username = formData.get('username') as string;
+  const password = formData.get('password') as string;
 
-  // Check for the user in the database
+  if (!username || !password) {
+    const errorMessage = encodeURIComponent(
+      'نام کاربری یا رمز عبور اشتباه است'
+    );
+    redirect(`/login?error=${errorMessage}`);
+    return;
+  }
+
   const user = await prisma.asaUser.findUnique({
-    where: { UserName: formUsername },
+    where: { UserName: username },
   });
 
-  // Validate user credentials
-  if (user && (await bcrypt.compare(formPassword, user.Password))) {
-    // If user is found and password matches, update the session
+  if (user && (await bcrypt.compare(password, user.Password))) {
+    const session = await getSession();
     session.userId = user.ID.toString();
     session.username = user.UserName;
     session.accesslevel = user.AccessLevel;
     await session.save();
 
-    // Redirect to dashboard
     redirect('/dashboard');
   } else {
-    // Handle invalid login attempt by throwing an error
-    throw new Error('Invalid username or password');
+    const errorMessage = encodeURIComponent(
+      'نام کاربری یا رمز عبور اشتباه است'
+    );
+    redirect(`/login?error=${errorMessage}`);
   }
-};
-
-export const logout = async () => {
-  // Future logic for logout
 };
