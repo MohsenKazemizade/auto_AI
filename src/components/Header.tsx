@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import React from 'react';
 
-const Header: React.FC = () => (
+const Header = () => (
   <header className="bg-white shadow-md py-4">
     <div className="container mx-auto flex justify-between items-center">
       <h1 className="text-2xl font-bold text-gray-800">آسا مسیر ناوگان</h1>

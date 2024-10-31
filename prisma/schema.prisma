@@ -1,8 +1,6 @@
-// prisma/schema.prisma
-
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL") // Make sure you have DATABASE_URL set up in your .env file
+  url      = env("DATABASE_URL") // Ensure this is set correctly in your .env file
 }
 
 generator client {
@@ -10,8 +8,8 @@ generator client {
 }
 
 model AsaUser {
-  ID                 Int      @id @default(autoincrement()) @map("ID")
-  UserName           String   @map("UserName")
+  ID                 BigInt   @id @default(autoincrement()) @map("ID")
+  UserName           String   @unique @map("UserName") // Marking as unique
   Password           String   @map("Password")
   AccessLevel        String   @map("AccessLevel")
   Owner              String?  @map("Owner")
@@ -20,5 +18,5 @@ model AsaUser {
   SubmitTime         DateTime @map("SubmitTime")
   RepresentativeCode String?  @map("RepresentativeCode")
 
-  @@map("asa_users") // Map the model to the table name in MySQL
+  @@map("asa_users") 
 }

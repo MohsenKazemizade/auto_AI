@@ -3,6 +3,11 @@
 import { sessionOptions, SessionData } from '../lib/session';
 import { getIronSession } from 'iron-session';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
+
+const prisma = new PrismaClient();
 
 // Retrieve the session
 export const getSession = async () => {
@@ -10,12 +15,35 @@ export const getSession = async () => {
   return session;
 };
 
-// Placeholder for future login functionality
-export const login = async () => {
-  // Future logic for login
-};
+// Login form submission action
+export const handleLoginSubmit = async (formData: FormData) => {
+  const username = formData.get('username') as string;
+  const password = formData.get('password') as string;
 
-// Placeholder for future logout functionality
-export const logout = async () => {
-  // Future logic for logout
+  if (!username || !password) {
+    const errorMessage = encodeURIComponent(
+      'نام کاربری یا رمز عبور اشتباه است'
+    );
+    redirect(`/login?error=${errorMessage}`);
+    return;
+  }
+
+  const user = await prisma.asaUser.findUnique({
+    where: { UserName: username },
+  });
+
+  if (user && (await bcrypt.compare(password, user.Password))) {
+    const session = await getSession();
+    session.userId = user.ID.toString();
+    session.username = user.UserName;
+    session.accesslevel = user.AccessLevel;
+    await session.save();
+
+    redirect('/dashboard');
+  } else {
+    const errorMessage = encodeURIComponent(
+      'نام کاربری یا رمز عبور اشتباه است'
+    );
+    redirect(`/login?error=${errorMessage}`);
+  }
 };
