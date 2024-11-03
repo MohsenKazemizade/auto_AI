@@ -1,9 +1,9 @@
 // src/app/page.tsx
 import React from 'react';
 import { redirect } from 'next/navigation';
-import Header from '../components/Header';
-import Hero from '../components/Hero';
-import Footer from '../components/Footer';
+import Header from '../components/landings/Header';
+import Hero from '../components/landings/Hero';
+import Footer from '../components/landings/Footer';
 import { getSession } from '../actions/sessionActions';
 
 const Home = async () => {
