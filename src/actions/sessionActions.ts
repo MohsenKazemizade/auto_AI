@@ -47,3 +47,14 @@ export const handleLoginSubmit = async (formData: FormData) => {
     redirect(`/login?error=${errorMessage}`);
   }
 };
+// Logout
+export const handleLogout = async () => {
+  // Retrieve the session
+  const session = await getIronSession(cookies(), sessionOptions);
+
+  // Destroy the session
+  session.destroy();
+
+  // Redirect to login page after session is destroyed
+  redirect('/login');
+};

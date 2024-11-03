@@ -2,14 +2,8 @@
 'use client';
 
 import { useState } from 'react';
-import * as sidebarActions from '../actions/sidebarActions';
-import {
-  FaBars,
-  FaSignOutAlt,
-  FaFileAlt,
-  FaChevronDown,
-  FaTimes,
-} from 'react-icons/fa';
+import { FaBars, FaFileAlt, FaChevronDown, FaTimes } from 'react-icons/fa';
+import LogoutButton from './LogoutButton';
 
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -51,7 +45,7 @@ const Sidebar: React.FC = () => {
           {isFormsOpen && isExpanded && (
             <div className="pr-8">
               <button
-                onClick={sidebarActions.goToNewTank}
+                // onClick={sidebarActions.goToNewTank}
                 className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left"
               >
                 <span>مخزن جدید</span>
@@ -61,13 +55,7 @@ const Sidebar: React.FC = () => {
         </div>
 
         {/* Logout */}
-        <button
-          onClick={sidebarActions.logout}
-          className="flex items-center p-5 hover:bg-gray-700 w-full text-right justify-between"
-        >
-          <span className={`${isExpanded ? 'block' : 'hidden'}`}>خروج</span>
-          <FaSignOutAlt size={20} />
-        </button>
+        <LogoutButton isExpanded={isExpanded} />
       </nav>
     </div>
   );
