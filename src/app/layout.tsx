@@ -1,4 +1,6 @@
+// src/app/layout.tsx
 import '../styles/globals.css';
+import { ThemeProvider } from 'next-themes';
 
 export default function RootLayout({
   children,
@@ -7,7 +9,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      {/* The ThemeProvider wraps the children to provide theme context */}
+      <body className="antialiased">
+        <ThemeProvider attribute="class">{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

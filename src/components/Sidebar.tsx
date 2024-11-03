@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <div
-      className={`inset-y-0 right-0 bg-gray-800 text-gray-200 transition-all duration-300 ${isSidebarExpanded ? 'w-64' : 'w-16'} h-screen flex flex-col`}
+      className={`inset-y-0 right-0 bg-gray-800 dark:bg-gray-700 text-gray-200 dark:text-gray-300 transition-all duration-300 ${isSidebarExpanded ? 'w-64' : 'w-16'} h-screen flex flex-col`}
     >
       {/* Navigation Links */}
       <nav className="flex-grow mt-20">

@@ -25,7 +25,7 @@ const Dashboard = async () => {
             profilePictureUrl="/images/admin-profile-picture.png" // Replace with actual image path or dynamic URL
             notificationCount={3} // Replace with actual notification count logic
           />
-          <main className="flex-grow p-6 bg-gray-100 dark:bg-gray-900">
+          <main className="flex-grow p-6 bg-gray-100 dark:bg-gray-800">
             <div className="p-6 bg-gray-100">
               <h1 className="text-2xl font-bold mb-4">خانه</h1>
               <section className="bg-white p-4 rounded-lg shadow-md mb-6">
