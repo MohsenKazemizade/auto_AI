@@ -2,16 +2,22 @@
 'use client';
 
 import { useState } from 'react';
-import { FaBars, FaFileAlt, FaChevronDown, FaTimes } from 'react-icons/fa';
+import {
+  FaBars,
+  FaFileAlt,
+  FaChevronDown,
+  FaTimes,
+  FaHome,
+} from 'react-icons/fa';
 import LogoutButton from './LogoutButton';
-
+import Link from 'next/link';
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isFormsOpen, setIsFormsOpen] = useState(false);
 
   return (
     <div
-      className={`inset-x-0 right-0 bg-gray-800 text-gray-200 transition-all duration-300 ${isExpanded ? 'w-64' : 'w-16'} h-screen flex flex-col`}
+      className={`inset-y-0 right-0 bg-gray-800 text-gray-200 transition-all duration-300 ${isExpanded ? 'w-64' : 'w-16'} h-screen flex flex-col`}
     >
       {/* Toggle Button */}
       <button
@@ -23,22 +29,33 @@ const Sidebar: React.FC = () => {
 
       {/* Navigation Links */}
       <nav className="flex-grow mt-10">
+        {/* Home Menu Item */}
+        <Link href="/dashboard">
+          <button className="flex items-center p-5 hover:bg-gray-700 w-full text-right">
+            <FaHome size={20} />
+            <span
+              className={`mr-4 flex-grow ${isExpanded ? 'block' : 'hidden'}`}
+            >
+              خانه
+            </span>
+          </button>
+        </Link>
         {/* Forms Dropdown */}
         <div className="mt-4">
           <button
             onClick={() => setIsFormsOpen(!isFormsOpen)}
             className="flex items-center p-5 hover:bg-gray-700 w-full text-right"
           >
-            <FaChevronDown
-              size={16}
-              className={`transform transition-transform ${isFormsOpen ? 'rotate-180' : 'rotate-0'} ${isExpanded ? 'block' : 'hidden'}`}
-            />
+            <FaFileAlt size={20} />
             <span
               className={`mr-4 flex-grow ${isExpanded ? 'block' : 'hidden'}`}
             >
               فرم ها
             </span>
-            <FaFileAlt size={20} />
+            <FaChevronDown
+              size={16}
+              className={`transform transition-transform ${isFormsOpen ? 'rotate-180' : 'rotate-0'} ${isExpanded ? 'block' : 'hidden'}`}
+            />
           </button>
 
           {/* Dropdown Menu */}
@@ -53,10 +70,10 @@ const Sidebar: React.FC = () => {
             </div>
           )}
         </div>
-
-        {/* Logout */}
-        <LogoutButton isExpanded={isExpanded} />
       </nav>
+      <footer>
+        <LogoutButton isExpanded={isExpanded} />
+      </footer>
     </div>
   );
 };
