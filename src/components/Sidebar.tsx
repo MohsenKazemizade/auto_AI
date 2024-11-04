@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <div
-      className={`inset-y-0 right-0 bg-gray-800 dark:bg-gray-700 text-gray-200 dark:text-gray-300 transition-all duration-300 ${isSidebarExpanded ? 'w-64' : 'w-16'} h-screen flex flex-col`}
+      className={`sticky inset-y-0 right-0 bg-gray-800 dark:bg-gray-700 text-gray-200 dark:text-gray-300 transition-all duration-300 ${isSidebarExpanded ? 'w-64' : 'w-16'} h-screen flex flex-col`}
     >
       {/* Navigation Links */}
       <nav className="flex-grow mt-20">
@@ -49,12 +49,11 @@ const Sidebar: React.FC = () => {
           {/* Dropdown Menu */}
           {isFormsOpen && isSidebarExpanded && (
             <div className="pr-8">
-              <button
-                // onClick={sidebarActions.goToNewTank}
-                className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left"
-              >
-                <span>مخزن جدید</span>
-              </button>
+              <Link href="/dashboard/forms/new-tank">
+                <button className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left">
+                  <span>مخزن جدید</span>
+                </button>
+              </Link>
             </div>
           )}
         </div>

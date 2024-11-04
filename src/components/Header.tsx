@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
   if (!mounted) return null; // Ensures the component loads correctly with SSR
 
   return (
-    <header className="flex sticky z-30 items-center justify-between bg-white dark:bg-gray-700 text-white p-4 shadow-custom">
+    <header className="flex sticky top-0 z-30 items-center justify-between bg-white dark:bg-gray-700 text-white p-4 shadow-custom">
       {/* Right side: Toggle button */}
       <div className="flex items-center space-x-4">
         <button
