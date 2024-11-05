@@ -9,7 +9,7 @@ const LoginForm = () => {
   const error = searchParams.get('error');
 
   return (
-    <form action={handleLoginSubmit} method="post" className="flex flex-col">
+    <form action={handleLoginSubmit} className="flex flex-col">
       {error && (
         <div className="mb-4 p-4 text-sm text-red-800 bg-red-100 border border-red-200 rounded-lg">
           {decodeURIComponent(error)}

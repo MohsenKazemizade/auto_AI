@@ -1,69 +1,293 @@
 'use client';
-import React from 'react';
-import CardView from '../CardView'; // Ensure the path to CardView is correct
+import React, { useState, useEffect } from 'react';
+import CardView from '../CardView';
 import { handleSubmitNewTank } from '../../actions/tankActions';
 import { useSearchParams } from 'next/navigation';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
+import Icon from 'react-multi-date-picker/components/icon';
 
 const NewTankForm: React.FC = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
+  const success = searchParams.get('success');
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [tankOwner, setTankOwner] = useState('');
+  const [tankNumber, setTankNumber] = useState('');
+  const [supervisor, setSupervisor] = useState('');
+  const [driverFullName, setDriverFullName] = useState('');
+  const [driverPhoneNumber, setDriverPhoneNumber] = useState('');
+  const [driverLisenceNumber, setDriverLisenceNumber] = useState('');
+  const [truckPlateNumber, setTruckPlateNumber] = useState('');
+  const [truckTransitNumber, setTruckTransitNumber] = useState('');
+  const [truckCaputageCompany, setTruckCaputageCompany] = useState('');
+  const [psiTest, setPsiTest] = useState('');
+  const [whiteTest, setWhiteTest] = useState('');
+
+  const resetForm = () => {
+    setTankOwner('');
+    setTankNumber('');
+    setSupervisor('');
+    setDriverFullName('');
+    setDriverPhoneNumber('');
+    setDriverLisenceNumber('');
+    setTruckPlateNumber('');
+    setTruckTransitNumber('');
+    setTruckCaputageCompany('');
+    setPsiTest('');
+    setWhiteTest('');
+  };
+
+  useEffect(() => {
+    if (success) {
+      setShowSuccessModal(true);
+      resetForm();
+    }
+  }, [success]);
 
   return (
-    <CardView title="Create New Tank">
-      <form action={handleSubmitNewTank} method="post" className="space-y-4">
-        {error && (
-          <div className="mb-4 p-4 text-sm text-red-800 bg-red-100 border border-red-200 rounded-lg">
-            {decodeURIComponent(error)}
+    <form className="flex flex-col gap-4" action={handleSubmitNewTank}>
+      {error && (
+        <div className="mb-4 p-4 text-sm text-red-800 bg-red-100 border border-red-200 rounded-lg">
+          {decodeURIComponent(error)}
+        </div>
+      )}
+
+      {showSuccessModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <p className="text-green-600 text-lg">مخزن جدید با موفقیت ثبت شد</p>
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              بستن
+            </button>
           </div>
-        )}
-
-        <div>
-          <label htmlFor="truckID" className="block text-sm font-medium">
-            Truck ID
-          </label>
-          <input
-            type="text"
-            id="truckID"
-            name="truckID"
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-          />
         </div>
+      )}
 
-        <div>
-          <label htmlFor="driverID" className="block text-sm font-medium">
-            Driver ID
-          </label>
-          <input
-            type="text"
-            id="driverID"
-            name="driverID"
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-          />
+      <CardView title="مخزن">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-1">
+            <label htmlFor="TankOwner" className="block text-sm font-medium">
+              صاحب مخزن <span className="text-red-500">*</span>{' '}
+            </label>
+            <input
+              type="text"
+              id="TankOwner"
+              name="TankOwner"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={tankOwner}
+              onChange={(e) => setTankOwner(e.target.value)}
+            />
+          </div>
+
+          <div className="col-span-1">
+            <label htmlFor="TankNumber" className="block text-sm font-medium">
+              شماره مخزن <span className="text-red-500">*</span>{' '}
+            </label>
+            <input
+              type="text"
+              id="TankNumber"
+              name="TankNumber"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={tankNumber}
+              onChange={(e) => setTankNumber(e.target.value)}
+            />
+          </div>
+          <div className="col-span-1">
+            <label htmlFor="Supervisor" className="block text-sm font-medium">
+              کرییر
+            </label>
+            <input
+              type="text"
+              id="Supervisor"
+              name="Supervisor"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={supervisor}
+              onChange={(e) => setSupervisor(e.target.value)}
+            />
+          </div>
+
+          <div className="col-span-1 flex items-center gap-1">
+            <label htmlFor="PsiTest" className="block text-sm font-medium">
+              تست psi
+            </label>
+            <input
+              type="text"
+              id="PsiTest"
+              name="PsiTest"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={psiTest}
+              readOnly
+            />
+            <div className="flex flex-row ml-1 items-center">
+              <DatePicker
+                render={<Icon />}
+                onChange={(date) => {
+                  if (date) {
+                    setPsiTest(new DateObject(date).format('YYYY/MM/DD'));
+                  } else {
+                    setPsiTest('');
+                  }
+                }}
+                calendar={persian}
+                locale={persian_fa}
+                calendarPosition="bottom-center"
+              />
+            </div>
+          </div>
+
+          <div className="col-span-1 flex items-center gap-1">
+            <label htmlFor="WhiteTest" className="block text-sm font-medium">
+              تست سفید
+            </label>
+            <input
+              type="text"
+              id="WhiteTest"
+              name="WhiteTest"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={whiteTest}
+              readOnly
+            />
+            <div className="flex flex-row ml-1 items-center">
+              <DatePicker
+                render={<Icon />}
+                onChange={(date) => {
+                  if (date) {
+                    setWhiteTest(new DateObject(date).format('YYYY/MM/DD'));
+                  } else {
+                    setWhiteTest('');
+                  }
+                }}
+                calendar={persian}
+                locale={persian_fa}
+                calendarPosition="bottom-center"
+              />
+            </div>
+          </div>
         </div>
+      </CardView>
 
-        <div>
-          <label htmlFor="tankOwner" className="block text-sm font-medium">
-            Tank Owner
-          </label>
-          <input
-            type="text"
-            id="tankOwner"
-            name="tankOwner"
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-          />
+      <CardView title="راننده">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-1">
+            <label
+              htmlFor="DriverFullName"
+              className="block text-sm font-medium"
+            >
+              راننده
+            </label>
+            <input
+              type="text"
+              id="DriverFullName"
+              name="DriverFullName"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={driverFullName}
+              onChange={(e) => setDriverFullName(e.target.value)}
+            />
+          </div>
+          <div className="col-span-1">
+            <label
+              htmlFor="DriverPhoneNumber"
+              className="block text-sm font-medium"
+            >
+              شماره تماس راننده
+            </label>
+            <input
+              type="number"
+              id="DriverPhoneNumber"
+              name="DriverPhoneNumber"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={driverPhoneNumber}
+              onChange={(e) => setDriverPhoneNumber(e.target.value)}
+            />
+          </div>
+
+          <div className="col-span-1">
+            <label
+              htmlFor="DriverLisenceNumber"
+              className="block text-sm font-medium"
+            >
+              شماره گواهینامه راننده
+            </label>
+            <input
+              type="text"
+              id="DriverLisenceNumber"
+              name="DriverLisenceNumber"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={driverLisenceNumber}
+              onChange={(e) => setDriverLisenceNumber(e.target.value)}
+            />
+          </div>
         </div>
+      </CardView>
 
-        {/* Repeat similar structure for remaining fields in your Tank model */}
-        {/* Ensure to include all required fields for creating a new tank */}
+      <CardView title="کشنده">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-1">
+            <label
+              htmlFor="TruckPlateNumber"
+              className="block text-sm font-medium"
+            >
+              شماره شهربانی
+            </label>
+            <input
+              type="text"
+              id="TruckPlateNumber"
+              name="TruckPlateNumber"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={truckPlateNumber}
+              onChange={(e) => setTruckPlateNumber(e.target.value)}
+            />
+          </div>
+          <div className="col-span-1">
+            <label
+              htmlFor="TruckTransitNumber"
+              className="block text-sm font-medium"
+            >
+              پلاک ترانزیت
+            </label>
+            <input
+              type="text"
+              id="TruckTransitNumber"
+              name="TruckTransitNumber"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={truckTransitNumber}
+              onChange={(e) => setTruckTransitNumber(e.target.value)}
+            />
+          </div>
+          <div className="col-span-1">
+            <label
+              htmlFor="TruckCaputageCompany"
+              className="block text-sm font-medium"
+            >
+              کاپوتاژ
+            </label>
+            <input
+              type="text"
+              id="TruckCaputageCompany"
+              name="TruckCaputageCompany"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              value={truckCaputageCompany}
+              onChange={(e) => setTruckCaputageCompany(e.target.value)}
+            />
+          </div>
+        </div>
+      </CardView>
 
+      <div className="col-span-3">
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow-custom"
         >
-          Submit
+          ثبت
         </button>
-      </form>
-    </CardView>
+      </div>
+    </form>
   );
 };
 
