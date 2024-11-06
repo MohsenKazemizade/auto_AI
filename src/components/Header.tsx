@@ -39,52 +39,52 @@ const Header: React.FC<HeaderProps> = ({
   if (!mounted) return null; // Ensures the component loads correctly with SSR
 
   return (
-    <header className="flex sticky top-0 z-30 items-center justify-between bg-white dark:bg-gray-700 text-white p-4 shadow-custom">
+    <header className="flex sticky top-0 z-10 items-center justify-between bg-white dark:bg-gray-700 text-white p-3 shadow-custom">
       {/* Right side: Toggle button */}
       <div className="flex items-center space-x-4">
         <button
           onClick={handleToggleSidebar}
           className="text-gray-600 dark:text-gray-300 hover:text-gray-200 hover:dark:text-gray-500"
         >
-          {isSidebarExpanded ? <FaTimes size={24} /> : <FaBars size={24} />}
+          {isSidebarExpanded ? <FaTimes size={18} /> : <FaBars size={18} />}
         </button>
       </div>
 
       {/* Left side: Profile info and notification */}
       <div className="flex items-center space-x-4">
         {/* Theme toggle button */}
-        <div className="relative mx-4">
+        <div className="flex mx-4 items-center">
           <button
             onClick={toggleTheme}
             className="text-gray-600 dark:text-gray-300 hover:text-gray-200 hover:dark:text-gray-500"
           >
-            {theme === 'dark' ? <FaSun size={20} /> : <FaMoon size={20} />}
+            {theme === 'dark' ? <FaSun size={18} /> : <FaMoon size={18} />}
           </button>
         </div>
         {/* Notification bell */}
-        <div className="relative mx-4">
-          <button className="text-gray-600 dark:text-gray-300 hover:text-gray-200 hover:dark:text-gray-500">
-            <FaBell size={24} />
+        <div className="flex mx-4">
+          <button className="relative text-gray-600 dark:text-gray-300 hover:text-gray-200 hover:dark:text-gray-500">
+            <FaBell size={20} />
             {notificationCount > 0 && (
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 bg-red-500 text-xs text-white rounded-full">
+              <span className="absolute top-0 right-0 items-center justify-center w-3 h-3 bg-red-500 text-xs text-white rounded-full">
                 {notificationCount}
               </span>
             )}
           </button>
         </div>
-        <div className="border-l border-gray-600 h-8"></div>
+        <div className="border-l border-gray-600 h-6"></div>
         <div className="flex flex-col items-end">
-          <p className="font-semibold text-gray-600 dark:text-gray-300">
+          <p className="text-sm font-bold text-gray-600 dark:text-gray-300">
             {username}
           </p>
-          <p className="text-sm text-gray-600 dark:text-gray-300">
+          <p className="text-xs text-gray-600 dark:text-gray-300">
             {accessLevel}
           </p>
         </div>
         <img
           src={profilePictureUrl}
           alt="Profile"
-          className="w-10 h-10 rounded-full"
+          className="w-8 h-8 rounded-full"
         />
       </div>
     </header>
