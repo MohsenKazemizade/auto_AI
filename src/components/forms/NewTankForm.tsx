@@ -70,9 +70,12 @@ const NewTankForm: React.FC = () => {
       )}
 
       <CardView title="مخزن">
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
           <div className="col-span-1">
-            <label htmlFor="TankOwner" className="block text-sm font-medium">
+            <label
+              htmlFor="TankOwner"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
+            >
               صاحب مخزن <span className="text-red-500">*</span>{' '}
             </label>
             <input
@@ -86,7 +89,10 @@ const NewTankForm: React.FC = () => {
           </div>
 
           <div className="col-span-1">
-            <label htmlFor="TankNumber" className="block text-sm font-medium">
+            <label
+              htmlFor="TankNumber"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
+            >
               شماره مخزن <span className="text-red-500">*</span>{' '}
             </label>
             <input
@@ -99,7 +105,10 @@ const NewTankForm: React.FC = () => {
             />
           </div>
           <div className="col-span-1">
-            <label htmlFor="Supervisor" className="block text-sm font-medium">
+            <label
+              htmlFor="Supervisor"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
+            >
               کرییر
             </label>
             <input
@@ -113,7 +122,10 @@ const NewTankForm: React.FC = () => {
           </div>
 
           <div className="col-span-1 flex items-center gap-1">
-            <label htmlFor="PsiTest" className="block text-sm font-medium">
+            <label
+              htmlFor="PsiTest"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
+            >
               تست psi
             </label>
             <input
@@ -124,7 +136,7 @@ const NewTankForm: React.FC = () => {
               value={psiTest}
               readOnly
             />
-            <div className="flex flex-row ml-1 items-center">
+            <div className="flex flex-row ml-1 items-center text-gray-800 dark:text-gray-200">
               <DatePicker
                 render={<Icon />}
                 onChange={(date) => {
@@ -142,7 +154,10 @@ const NewTankForm: React.FC = () => {
           </div>
 
           <div className="col-span-1 flex items-center gap-1">
-            <label htmlFor="WhiteTest" className="block text-sm font-medium">
+            <label
+              htmlFor="WhiteTest"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
+            >
               تست سفید
             </label>
             <input
@@ -153,7 +168,7 @@ const NewTankForm: React.FC = () => {
               value={whiteTest}
               readOnly
             />
-            <div className="flex flex-row ml-1 items-center">
+            <div className="flex flex-row ml-1 items-center text-gray-800 dark:text-gray-200">
               <DatePicker
                 render={<Icon />}
                 onChange={(date) => {
@@ -173,11 +188,11 @@ const NewTankForm: React.FC = () => {
       </CardView>
 
       <CardView title="راننده">
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
           <div className="col-span-1">
             <label
               htmlFor="DriverFullName"
-              className="block text-sm font-medium"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200 "
             >
               راننده
             </label>
@@ -193,7 +208,7 @@ const NewTankForm: React.FC = () => {
           <div className="col-span-1">
             <label
               htmlFor="DriverPhoneNumber"
-              className="block text-sm font-medium"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
             >
               شماره تماس راننده
             </label>
@@ -210,7 +225,7 @@ const NewTankForm: React.FC = () => {
           <div className="col-span-1">
             <label
               htmlFor="DriverLisenceNumber"
-              className="block text-sm font-medium"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
             >
               شماره گواهینامه راننده
             </label>
@@ -227,11 +242,11 @@ const NewTankForm: React.FC = () => {
       </CardView>
 
       <CardView title="کشنده">
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
           <div className="col-span-1">
             <label
               htmlFor="TruckPlateNumber"
-              className="block text-sm font-medium"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
             >
               شماره شهربانی
             </label>
@@ -247,7 +262,7 @@ const NewTankForm: React.FC = () => {
           <div className="col-span-1">
             <label
               htmlFor="TruckTransitNumber"
-              className="block text-sm font-medium"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
             >
               پلاک ترانزیت
             </label>
@@ -263,7 +278,7 @@ const NewTankForm: React.FC = () => {
           <div className="col-span-1">
             <label
               htmlFor="TruckCaputageCompany"
-              className="block text-sm font-medium"
+              className="block text-sm font-medium text-gray-800 dark:text-gray-200"
             >
               کاپوتاژ
             </label>

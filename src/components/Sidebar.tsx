@@ -19,7 +19,7 @@ const Sidebar: React.FC = () => {
       >
         {/* Sidebar Header for Small Screens */}
         <header
-          className={`${isSidebarExpanded ? 'block' : 'hidden'} flex items-center justify-center p-6 bg-gray-800 dark:bg-gray-700 md:hidden`}
+          className={`${isSidebarExpanded ? 'block' : 'hidden'} flex items-center justify-center p-6 bg-gray-800 dark:bg-gray-700 `}
         >
           <img
             src="/images/asaLogo.png"

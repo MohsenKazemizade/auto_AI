@@ -28,7 +28,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
             profilePictureUrl="/images/admin-profile-picture.png" // Replace with actual image path or dynamic URL
             notificationCount={3} // Replace with actual notification count logic
           />
-          <main className="flex-grow p-6 bg-gray-100 dark:bg-gray-800">
+          <main className="flex-grow p-6 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200">
             {children}
           </main>
         </div>
