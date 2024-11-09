@@ -15,7 +15,7 @@ const Login = async () => {
     <div className="flex w-full items-center overflow-hidden min-h-dvh h-dvh basis-full">
       <div className="flex md: flex-wrap w-full h-dvh">
         {/* Left Section */}
-        <div className="hidden flex-1 lg:flex relative bg-gray-200 justify-center items-center">
+        <div className="hidden flex-1 lg:flex xl:flex 2xl:flex relative bg-gray-200 justify-center items-center">
           <img
             src="/images/truck-driver.jpeg"
             alt="Truck Driver"
