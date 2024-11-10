@@ -11,6 +11,7 @@ import { useSidebar } from '../hooks/useSidebar';
 const Sidebar: React.FC = () => {
   const { isSidebarExpanded, toggleSidebar } = useSidebar();
   const [isFormsOpen, setIsFormsOpen] = useState(false);
+  const [isListsOpen, setIsListsOpen] = useState(false);
 
   return (
     <>
@@ -73,6 +74,34 @@ const Sidebar: React.FC = () => {
                 <Link href="/dashboard/forms/new-tank">
                   <button className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left">
                     <span>مخزن جدید</span>
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
+          <div className="mt-4">
+            <button
+              onClick={() => setIsListsOpen(!isListsOpen)}
+              className={`flex items-center p-5 hover:bg-gray-700 w-full text-right ${isSidebarExpanded ? 'smMobile:flex' : 'smMobile:hidden'}`}
+            >
+              <FaFileAlt size={20} />
+              <span
+                className={`mr-4 flex-grow ${isSidebarExpanded ? 'block' : 'hidden'}`}
+              >
+                لیست ها
+              </span>
+              <FaChevronDown
+                size={16}
+                className={`transform transition-transform ${isListsOpen ? 'rotate-180' : 'rotate-0'} ${isSidebarExpanded ? 'block' : 'hidden'}`}
+              />
+            </button>
+
+            {/* Dropdown Menu */}
+            {isListsOpen && isSidebarExpanded && (
+              <div className="pr-8">
+                <Link href="/dashboard/lists/tanks-list">
+                  <button className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left">
+                    <span>لیست مخازن</span>
                   </button>
                 </Link>
               </div>

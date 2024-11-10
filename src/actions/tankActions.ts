@@ -20,6 +20,29 @@ const parsePersianDate = (dateString: string): Date | null => {
   });
   return dateObject.toDate();
 };
+// Fetch all tanks from the database
+export const getTanks = async () => {
+  const tanks = await prisma.tanks.findMany({
+    orderBy: { SubmitDateTime: 'desc' }, // Sort by submission date, newest first
+  });
+
+  return tanks.map((tank) => ({
+    ID: tank.ID.toString(),
+    TankNumber: tank.TankNumber,
+    TankOwner: tank.TankOwner,
+    TruckPlateNumber: tank.TruckPlateNumber || null,
+    TruckTransitNumber: tank.TruckTransitNumber || null,
+    TruckCaputageCompany: tank.TruckCaputageCompany || null,
+    DriverFullName: tank.DriverFullName || null,
+    DriverLisenceNumber: tank.DriverLisenceNumber || null,
+    DriverPhoneNumber: tank.DriverPhoneNumber || null,
+    PsiTest: tank.PsiTest ? tank.PsiTest.toISOString() : null, // Convert DateTime to ISO string
+    WhiteTest: tank.WhiteTest ? tank.WhiteTest.toISOString() : null,
+    Supervisor: tank.Supervisor || null,
+    Creator: tank.Creator,
+    SubmitDateTime: tank.SubmitDateTime.toISOString(),
+  }));
+};
 
 export const handleSubmitNewTank = async (formData: FormData) => {
   const session = await getSession();
@@ -72,4 +95,32 @@ export const handleSubmitNewTank = async (formData: FormData) => {
     const errorMessage = encodeURIComponent('این شماره مخزن قبلا ثبت شده است');
     redirect(`/dashboard/forms/new-tank?error=${errorMessage}`);
   }
+};
+
+export const deleteTank = async (TankNumber: string) => {
+  const session = await getSession();
+
+  if (!session || !session.username) {
+    const errorMessage = encodeURIComponent(
+      'ورود شما منقضی شده است لطفا دوباره وارد شوید'
+    );
+    redirect(`/login?error=${errorMessage}`);
+    return;
+  }
+
+  const tank = await prisma.tanks.findUnique({
+    where: { TankNumber },
+  });
+
+  if (!tank) {
+    const errorMessage = encodeURIComponent('مخزن یافت نشد');
+    redirect(`/dashboard/lists/tanks-list?error=${errorMessage}`);
+    return;
+  }
+
+  await prisma.tanks.delete({
+    where: { TankNumber },
+  });
+
+  redirect(`/dashboard/lists/tanks-list?success=true`);
 };
