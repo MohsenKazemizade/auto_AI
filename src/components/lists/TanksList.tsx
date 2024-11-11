@@ -10,12 +10,12 @@ import { updateTank } from '@/actions/tankActions';
 interface Tank {
   TankNumber: string;
   TankOwner: string;
-  Supervisor: string;
-  DriverFullName: string;
-  TruckPlateNumber: string;
+  Supervisor: string | null; // Allow null
+  DriverFullName: string | null; // Allow null
+  TruckPlateNumber: string | null; // Allow null
   SubmitDateTime: string;
-  PsiTest: string;
-  WhiteTest: string;
+  PsiTest: string | null;
+  WhiteTest: string | null;
 }
 
 export default function TanksList({ tanks }: { tanks: Tank[] }) {
@@ -124,14 +124,38 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
             Supervisor: { type: 'text', label: 'کرییر', required: true },
             TankOwner: { type: 'text', label: 'صاحب مخزن', required: true },
             TankNumber: { type: 'text', label: 'شماره مخزن', required: true },
-            TruckCaputageCompany: { type: 'text', label: 'کاپوتاژ' },
-            WhiteTest: { type: 'date', label: 'تست سفید' },
-            PsiTest: { type: 'date', label: 'تست PSI' },
-            TruckPlateNumber: { type: 'text', label: 'شماره پلاک' },
-            TruckTransitNumber: { type: 'text', label: 'پلاک ترانزیت' },
-            DriverFullName: { type: 'text', label: 'نام راننده' },
-            DriverLisenceNumber: { type: 'text', label: 'شماره گواهینامه' },
-            DriverPhoneNumber: { type: 'number', label: 'شماره تماس راننده' },
+            TruckCaputageCompany: {
+              type: 'text',
+              label: 'کاپوتاژ',
+              required: false,
+            },
+            WhiteTest: { type: 'date', label: 'تست سفید', required: false },
+            PsiTest: { type: 'date', label: 'تست PSI', required: false },
+            TruckPlateNumber: {
+              type: 'text',
+              label: 'شماره پلاک',
+              required: false,
+            },
+            TruckTransitNumber: {
+              type: 'text',
+              label: 'پلاک ترانزیت',
+              required: false,
+            },
+            DriverFullName: {
+              type: 'text',
+              label: 'نام راننده',
+              required: false,
+            },
+            DriverLisenceNumber: {
+              type: 'text',
+              label: 'شماره گواهینامه',
+              required: false,
+            },
+            DriverPhoneNumber: {
+              type: 'number',
+              label: 'شماره تماس راننده',
+              required: false,
+            },
           }}
         />
       )}

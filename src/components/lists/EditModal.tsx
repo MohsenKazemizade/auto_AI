@@ -29,8 +29,16 @@ const EditModal: React.FC<EditModalProps> = ({
   inputTypes,
 }) => {
   const [formData, setFormData] = useState<Record<string, any>>(data);
-  const [psiTest, setPsiTest] = useState(data.PsiTest || '');
-  const [whiteTest, setWhiteTest] = useState(data.WhiteTest || '');
+  const [psiTest, setPsiTest] = useState(
+    new DateObject(data.PsiTest)
+      .convert(persian, persian_fa)
+      .format('YYYY/MM/DD') || ''
+  );
+  const [whiteTest, setWhiteTest] = useState(
+    new DateObject(data.WhiteTest)
+      .convert(persian, persian_fa)
+      .format('YYYY/MM/DD') || ''
+  );
 
   if (!isOpen) return null;
 
@@ -76,14 +84,23 @@ const EditModal: React.FC<EditModalProps> = ({
                         <DatePicker
                           render={<Icon />}
                           onChange={(date) => {
-                            if (key === 'PsiTest') {
-                              setPsiTest(
-                                new DateObject(date).format('YYYY/MM/DD')
-                              );
+                            if (date) {
+                              if (key === 'PsiTest') {
+                                setPsiTest(
+                                  new DateObject(date).format('YYYY/MM/DD')
+                                );
+                              } else {
+                                setWhiteTest(
+                                  new DateObject(date).format('YYYY/MM/DD')
+                                );
+                              }
                             } else {
-                              setWhiteTest(
-                                new DateObject(date).format('YYYY/MM/DD')
-                              );
+                              // Handle clearing the date
+                              if (key === 'PsiTest') {
+                                setPsiTest('');
+                              } else {
+                                setWhiteTest('');
+                              }
                             }
                           }}
                           calendar={persian}

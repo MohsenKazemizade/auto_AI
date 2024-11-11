@@ -106,11 +106,11 @@ const Table: React.FC<TableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {paginatedData.map((row, index) => {
+            {paginatedData.map((row) => {
               const isExpanded = expandedRows[row.TankNumber];
               return (
                 <>
-                  <tr key={index} className="hover:bg-gray-50">
+                  <tr key={row.TankNumber} className="hover:bg-gray-50">
                     {/* Expand/Collapse Icon (visible only for smMobile) */}
                     <td className="border p-2 text-center smMobile:table-cell hidden">
                       <button
