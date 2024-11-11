@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { paginateData, sortData, filterData } from '../actions/tableActions';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa';
 interface Column {
   key: string;
   label: string;
@@ -54,10 +54,14 @@ const Table: React.FC<TableProps> = ({
     }));
   };
 
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
+
   return (
     <div>
       {enableSearch && (
-        <div className="mb-4">
+        <div className="mb-4 relative max-w-fit">
           <input
             type="text"
             placeholder="جستجو..."
@@ -65,6 +69,14 @@ const Table: React.FC<TableProps> = ({
             onChange={(e) => setSearchTerm(e.target.value)}
             className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {searchTerm && (
+            <button
+              onClick={clearSearch}
+              className="px-4 absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
+            >
+              <FaTimes />
+            </button>
+          )}
         </div>
       )}
 
