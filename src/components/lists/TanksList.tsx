@@ -20,9 +20,9 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
   const success = searchParams.get('success');
 
   const columns = [
-    { key: 'TankNumber', label: 'شماره مخزن', sortable: true },
-    { key: 'TankOwner', label: 'صاحب مخزن', sortable: true },
     { key: 'Supervisor', label: 'کرییر', sortable: true },
+    { key: 'TankOwner', label: 'صاحب مخزن', sortable: true },
+    { key: 'TankNumber', label: 'شماره مخزن', sortable: true },
     { key: 'SubmitDateTime', label: 'تاریخ ثبت', sortable: true },
   ];
 

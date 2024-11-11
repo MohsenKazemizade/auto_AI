@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { paginateTanks, sortTanks, filterTanks } from '../actions/tableActions';
+import { paginateData, sortData, filterData } from '../actions/tableActions';
 
 interface Column {
   key: string;
@@ -30,9 +30,9 @@ const Table: React.FC<TableProps> = ({
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredData = filterTanks(data, searchTerm);
-  const sortedData = sortTanks(filteredData, sortKey, sortOrder);
-  const paginatedData = paginateTanks(sortedData, currentPage, itemsPerPage);
+  const filteredData = filterData(data, searchTerm);
+  const sortedData = sortData(filteredData, sortKey, sortOrder);
+  const paginatedData = paginateData(sortedData, currentPage, itemsPerPage);
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -58,7 +58,9 @@ const Table: React.FC<TableProps> = ({
           />
         </div>
       )}
-      <div className="overflow-x-auto">
+
+      {/* Horizontal scroll limited to the table */}
+      <div className="overflow-x-auto md:overflow-x-scroll">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-100">
@@ -93,6 +95,7 @@ const Table: React.FC<TableProps> = ({
           </tbody>
         </table>
       </div>
+
       <div className="flex justify-end items-center mt-4 gap-2">
         <button
           className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"

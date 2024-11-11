@@ -1,4 +1,4 @@
-export const filterTanks = (data: any[], searchTerm: string) => {
+export const filterData = (data: any[], searchTerm: string) => {
   if (!searchTerm) return data;
   const lowerCaseTerm = searchTerm.toLowerCase();
 
@@ -9,7 +9,7 @@ export const filterTanks = (data: any[], searchTerm: string) => {
   );
 };
 
-export const sortTanks = (
+export const sortData = (
   data: any[],
   sortKey: string | null,
   sortOrder: 'asc' | 'desc'
@@ -25,7 +25,7 @@ export const sortTanks = (
   });
 };
 
-export const paginateTanks = (
+export const paginateData = (
   data: any[],
   currentPage: number,
   itemsPerPage: number
