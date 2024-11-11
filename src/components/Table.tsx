@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react';
 import { paginateData, sortData, filterData } from '../actions/tableActions';
-
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 interface Column {
   key: string;
   label: string;
   sortable?: boolean;
   formatter?: (value: any, row: any) => React.ReactNode;
+  primary?: boolean; // New property for primary columns
 }
 
 interface TableProps {
@@ -29,7 +30,9 @@ const Table: React.FC<TableProps> = ({
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [expandedRows, setExpandedRows] = useState<{ [key: string]: boolean }>(
+    {}
+  );
   const filteredData = filterData(data, searchTerm);
   const sortedData = sortData(filteredData, sortKey, sortOrder);
   const paginatedData = paginateData(sortedData, currentPage, itemsPerPage);
@@ -44,6 +47,12 @@ const Table: React.FC<TableProps> = ({
       setSortOrder('asc');
     }
   };
+  const toggleRowExpand = (rowId: string) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [rowId]: !prev[rowId],
+    }));
+  };
 
   return (
     <div>
@@ -54,20 +63,24 @@ const Table: React.FC<TableProps> = ({
             placeholder="جستجو..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full max-w-md px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       )}
 
-      {/* Horizontal scroll limited to the table */}
-      <div className="overflow-x-auto md:overflow-x-scroll">
+      {/* Responsive wrapper */}
+      <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-100">
+              {/* Expand/Collapse Icon Header (visible only for smMobile) */}
+              <th className="border p-2 smMobile:table-cell hidden">+</th>
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className={`border p-2 ${column.sortable ? 'cursor-pointer' : ''}`}
+                  className={`border p-2 ${
+                    column.sortable ? 'cursor-pointer' : ''
+                  } smMobile:${!column.primary ? 'hidden' : 'table-cell'}`}
                   onClick={() => column.sortable && handleSort(column.key)}
                 >
                   {column.label}{' '}
@@ -76,22 +89,63 @@ const Table: React.FC<TableProps> = ({
                     (sortOrder === 'asc' ? '▲' : '▼')}
                 </th>
               ))}
+              {/* Keep عملیات column always visible */}
               {actions && <th className="border p-2">عملیات</th>}
             </tr>
           </thead>
           <tbody>
-            {paginatedData.map((row, index) => (
-              <tr key={index} className="hover:bg-gray-50">
-                {columns.map((column) => (
-                  <td key={column.key} className="border p-2">
-                    {column.formatter
-                      ? column.formatter(row[column.key], row)
-                      : row[column.key] || '-'}
-                  </td>
-                ))}
-                {actions && <td className="border p-2">{actions(row)}</td>}
-              </tr>
-            ))}
+            {paginatedData.map((row, index) => {
+              const isExpanded = expandedRows[row.TankNumber];
+              return (
+                <>
+                  <tr key={index} className="hover:bg-gray-50">
+                    {/* Expand/Collapse Icon (visible only for smMobile) */}
+                    <td className="border p-2 text-center smMobile:table-cell hidden">
+                      <button
+                        onClick={() => toggleRowExpand(row.TankNumber)}
+                        className="text-gray-600 hover:text-gray-900"
+                      >
+                        {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
+                      </button>
+                    </td>
+                    {columns.map((column) => (
+                      <td
+                        key={column.key}
+                        className={`border p-2 smMobile:${
+                          !column.primary ? 'hidden' : 'table-cell'
+                        }`}
+                      >
+                        {column.formatter
+                          ? column.formatter(row[column.key], row)
+                          : row[column.key] || '-'}
+                      </td>
+                    ))}
+                    {/* Always display عملیات */}
+                    {actions && <td className="border p-2">{actions(row)}</td>}
+                  </tr>
+
+                  {/* Expanded Row for Non-Primary Columns (visible only for smMobile) */}
+                  {isExpanded && (
+                    <tr className="bg-gray-50 smMobile:table-row hidden">
+                      <td colSpan={columns.length + 2}>
+                        <div className="p-2">
+                          {columns
+                            .filter((column) => !column.primary)
+                            .map((column) => (
+                              <div key={column.key} className="mb-2">
+                                <strong>{column.label}: </strong>
+                                {column.formatter
+                                  ? column.formatter(row[column.key], row)
+                                  : row[column.key] || '-'}
+                              </div>
+                            ))}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </>
+              );
+            })}
           </tbody>
         </table>
       </div>
