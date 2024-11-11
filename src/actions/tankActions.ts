@@ -124,3 +124,46 @@ export const deleteTank = async (TankNumber: string) => {
 
   redirect(`/dashboard/lists/tanks-list?success=true`);
 };
+
+export const updateTank = async (
+  TankNumber: string,
+  updatedData: Record<string, any>
+) => {
+  const session = await getSession();
+
+  if (!session || !session.username) {
+    const errorMessage = encodeURIComponent(
+      'ورود شما منقضی شده است لطفا دوباره وارد شوید'
+    );
+    redirect(`/login?error=${errorMessage}`);
+    return;
+  }
+
+  const safeGetInt = (value: any) =>
+    value && !isNaN(parseInt(value.toString()))
+      ? parseInt(value.toString())
+      : null;
+
+  const safeGetString = (value: any) =>
+    value !== null && value !== undefined ? String(value) : '';
+
+  const data = {
+    TankOwner: safeGetString(updatedData.TankOwner),
+    TruckPlateNumber: safeGetString(updatedData.TruckPlateNumber),
+    TruckTransitNumber: safeGetString(updatedData.TruckTransitNumber),
+    TruckCaputageCompany: safeGetString(updatedData.TruckCaputageCompany),
+    DriverFullName: safeGetString(updatedData.DriverFullName),
+    DriverLisenceNumber: safeGetString(updatedData.DriverLisenceNumber),
+    DriverPhoneNumber: safeGetInt(updatedData.DriverPhoneNumber),
+    PsiTest: parsePersianDate(safeGetString(updatedData.PsiTest)),
+    WhiteTest: parsePersianDate(safeGetString(updatedData.WhiteTest)),
+    Supervisor: safeGetString(updatedData.Supervisor),
+  };
+
+  await prisma.tanks.update({
+    where: { TankNumber },
+    data,
+  });
+
+  redirect(`/dashboard/lists/tanks-list?success=true`);
+};
