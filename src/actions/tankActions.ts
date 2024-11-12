@@ -54,10 +54,10 @@ export const handleSubmitNewTank = async (formData: FormData) => {
     redirect(`/login?error=${errorMessage}`);
     return;
   }
-  const safeGetInt = (value: FormDataEntryValue | null) =>
-    value && !isNaN(parseInt(value.toString()))
-      ? parseInt(value.toString())
-      : null;
+  // const safeGetInt = (value: FormDataEntryValue | null) =>
+  //   value && !isNaN(parseInt(value.toString()))
+  //     ? parseInt(value.toString())
+  //     : null;
 
   const safeGetString = (value: FormDataEntryValue | null) =>
     value ? String(value) : '';
@@ -70,7 +70,7 @@ export const handleSubmitNewTank = async (formData: FormData) => {
     TruckCaputageCompany: safeGetString(formData.get('TruckCaputageCompany')),
     DriverFullName: safeGetString(formData.get('DriverFullName')),
     DriverLisenceNumber: safeGetString(formData.get('DriverLisenceNumber')),
-    DriverPhoneNumber: safeGetInt(formData.get('DriverPhoneNumber')),
+    DriverPhoneNumber: safeGetString(formData.get('DriverPhoneNumber')),
     PsiTest: parsePersianDate(safeGetString(formData.get('PsiTest'))),
     WhiteTest: parsePersianDate(safeGetString(formData.get('WhiteTest'))),
     Supervisor: safeGetString(formData.get('Supervisor')),
@@ -139,11 +139,6 @@ export const updateTank = async (
     return;
   }
 
-  const safeGetInt = (value: any) =>
-    value && !isNaN(parseInt(value.toString()))
-      ? parseInt(value.toString())
-      : null;
-
   const safeGetString = (value: any) =>
     value !== null && value !== undefined ? String(value) : '';
 
@@ -154,7 +149,7 @@ export const updateTank = async (
     TruckCaputageCompany: safeGetString(updatedData.TruckCaputageCompany),
     DriverFullName: safeGetString(updatedData.DriverFullName),
     DriverLisenceNumber: safeGetString(updatedData.DriverLisenceNumber),
-    DriverPhoneNumber: safeGetInt(updatedData.DriverPhoneNumber),
+    DriverPhoneNumber: safeGetString(updatedData.DriverPhoneNumber),
     PsiTest: parsePersianDate(safeGetString(updatedData.PsiTest)),
     WhiteTest: parsePersianDate(safeGetString(updatedData.WhiteTest)),
     Supervisor: safeGetString(updatedData.Supervisor),

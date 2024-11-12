@@ -30,7 +30,7 @@ model Tanks {
   TruckCaputageCompany  String?   @map("TruckCaputageCompany")
   DriverFullName        String?   @map("DriverFullName")
   DriverLisenceNumber   String?   @map("DriverLisenceNumber")
-  DriverPhoneNumber     Int?      @map("DriverPhoneNumber")
+  DriverPhoneNumber     String?   @map("DriverPhoneNumber")
   PsiTest               DateTime? @map("PsiTest")
   WhiteTest             DateTime? @map("WhiteTest")
   Supervisor            String?   @map("Supervisor")

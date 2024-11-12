@@ -82,7 +82,7 @@ const Table: React.FC<TableProps> = ({
 
       {/* Responsive wrapper */}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full smMobile:text-xs md:text-xs text-sm">
           <thead>
             <tr className="bg-gray-100">
               {/* Expand/Collapse Icon Header (visible only for smMobile) */}

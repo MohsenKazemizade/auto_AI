@@ -20,10 +20,6 @@ const Header: React.FC<HeaderProps> = ({
   profilePictureUrl,
   notificationCount,
 }) => {
-  const handleToggleSidebar = () => {
-    toggleSidebar();
-    // Optionally trigger a re-render if needed using other state management solutions
-  };
   const { isSidebarExpanded, toggleSidebar } = useSidebar();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -43,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
       {/* Right side: Toggle button */}
       <div className="flex items-center space-x-4">
         <button
-          onClick={handleToggleSidebar}
+          onClick={toggleSidebar}
           className="text-gray-600 dark:text-gray-300 hover:text-gray-200 hover:dark:text-gray-500"
         >
           {isSidebarExpanded ? <FaTimes size={18} /> : <FaBars size={18} />}

@@ -17,8 +17,8 @@ export const SidebarProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   // Initial state based on screen width
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth >= 1280;
+    if (window.innerWidth >= 1280) {
+      return true;
     }
     return false; // Default to closed on the server
   });
