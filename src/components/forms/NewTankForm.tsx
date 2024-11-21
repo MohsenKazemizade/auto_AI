@@ -70,7 +70,7 @@ const NewTankForm: React.FC = () => {
       )}
 
       <CardView title="مخزن">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-3 gap-4">
           <div className="col-span-1">
             <label
               htmlFor="TankOwner"
