@@ -9,7 +9,7 @@ import {
   FaWpforms,
   FaListAlt,
 } from 'react-icons/fa';
-import LogoutButton from './LogoutButton';
+// import LogoutButton from './LogoutButton';
 import Link from 'next/link';
 import { useSidebar } from '../hooks/useSidebar';
 import { usePathname } from 'next/navigation';
@@ -187,7 +187,7 @@ const Sidebar: React.FC = () => {
           </div>
         </nav>
         <footer>
-          <LogoutButton isSidebarExpanded={isSidebarExpanded} />
+          {/* <LogoutButton isSidebarExpanded={isSidebarExpanded} /> */}
         </footer>
       </div>
       <div
