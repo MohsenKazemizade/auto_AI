@@ -114,13 +114,13 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
         actions={(row) => (
           <div className="flex gap-2 justify-center">
             <button
-              className="px-2 py-1 bg-yellow-400 rounded text-white"
+              className="px-2 py-1 bg-yellow-500 rounded text-gray-50"
               onClick={() => handleEditClick(row)}
             >
               ویرایش
             </button>
             <button
-              className="px-2 py-1 bg-red-500 rounded text-white"
+              className="px-2 py-1 bg-red-500 rounded text-gray-50"
               onClick={() => handleDelete(row.TankNumber)}
             >
               حذف

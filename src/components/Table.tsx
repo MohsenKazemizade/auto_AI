@@ -67,7 +67,7 @@ const Table: React.FC<TableProps> = ({
             placeholder="جستجو..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-600"
           />
           {searchTerm && (
             <button
@@ -82,15 +82,17 @@ const Table: React.FC<TableProps> = ({
 
       {/* Responsive wrapper */}
       <div className="overflow-x-auto">
-        <table className="w-full smMobile:text-xs md:text-xs text-sm">
-          <thead>
-            <tr className="bg-gray-100">
+        <table className="w-full smMobile:text-xs md:text-xs text-sm dark:bg-slate-800">
+          <thead className="">
+            <tr className="bg-gray-100  dark:bg-slate-600">
               {/* Expand/Collapse Icon Header (visible only for smMobile) */}
-              <th className="border p-2 smMobile:table-cell hidden">+</th>
+              <th className="border border-gray-300 dark:border-gray-500 p-2 smMobile:table-cell hidden  ">
+                +
+              </th>
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className={`border p-2 ${
+                  className={`border border-gray-300 dark:border-gray-500 p-2 ${
                     column.sortable ? 'cursor-pointer' : ''
                   } smMobile:${!column.primary ? 'hidden' : 'table-cell'}`}
                   onClick={() => column.sortable && handleSort(column.key)}
@@ -102,7 +104,11 @@ const Table: React.FC<TableProps> = ({
                 </th>
               ))}
               {/* Keep عملیات column always visible */}
-              {actions && <th className="border p-2">عملیات</th>}
+              {actions && (
+                <th className="border border-gray-300 dark:border-gray-500 p-2">
+                  عملیات
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -110,12 +116,12 @@ const Table: React.FC<TableProps> = ({
               const isExpanded = expandedRows[row.TankNumber];
               return (
                 <>
-                  <tr key={row.TankNumber} className="hover:bg-gray-50">
+                  <tr key={row.TankNumber} className="text-center">
                     {/* Expand/Collapse Icon (visible only for smMobile) */}
-                    <td className="border p-2 text-center smMobile:table-cell hidden">
+                    <td className="border border-gray-300 dark:border-gray-500 p-2 text-center smMobile:table-cell hidden">
                       <button
                         onClick={() => toggleRowExpand(row.TankNumber)}
-                        className="text-gray-600 hover:text-gray-900"
+                        className=" hover:text-blue-700"
                       >
                         {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
                       </button>
@@ -123,7 +129,7 @@ const Table: React.FC<TableProps> = ({
                     {columns.map((column) => (
                       <td
                         key={column.key}
-                        className={`border p-2 smMobile:${
+                        className={`border border-gray-300 dark:border-gray-500 p-2 smMobile:${
                           !column.primary ? 'hidden' : 'table-cell'
                         }`}
                       >
@@ -133,12 +139,16 @@ const Table: React.FC<TableProps> = ({
                       </td>
                     ))}
                     {/* Always display عملیات */}
-                    {actions && <td className="border p-2">{actions(row)}</td>}
+                    {actions && (
+                      <td className="border border-gray-300 dark:border-gray-500 p-2">
+                        {actions(row)}
+                      </td>
+                    )}
                   </tr>
 
                   {/* Expanded Row for Non-Primary Columns (visible only for smMobile) */}
                   {isExpanded && (
-                    <tr className="bg-gray-50 smMobile:table-row hidden">
+                    <tr className="border border-gray-300 dark:border-gray-500 bg-gdray-50 dark:bg-slate-800 smMobile:table-row hidden">
                       <td colSpan={columns.length + 2}>
                         <div className="p-2">
                           {columns
@@ -164,7 +174,7 @@ const Table: React.FC<TableProps> = ({
 
       <div className="flex justify-end items-center mt-4 gap-2">
         <button
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-blue-500 text-gray-100 rounded disabled:opacity-50 disabled:bg-slate-800 hover:bg-blue-600 shadow-custom"
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
         >
@@ -174,7 +184,7 @@ const Table: React.FC<TableProps> = ({
           صفحه {currentPage} از {totalPages}
         </span>
         <button
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-blue-500 text-gray-100 rounded disabled:opacity-50 disabled:bg-slate-800 hover:bg-blue-600 shadow-custom"
           disabled={currentPage === totalPages}
           onClick={() =>
             setCurrentPage((prev) => Math.min(prev + 1, totalPages))
