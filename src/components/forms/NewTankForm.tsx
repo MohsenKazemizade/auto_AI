@@ -7,6 +7,7 @@ import DatePicker, { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import Icon from 'react-multi-date-picker/components/icon';
+import SuccessErrorModal from '../modals/SuccessErrorModal';
 
 const NewTankForm: React.FC = () => {
   const searchParams = useSearchParams();
@@ -14,6 +15,7 @@ const NewTankForm: React.FC = () => {
   const success = searchParams.get('success');
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const [tankOwner, setTankOwner] = useState('');
   const [tankNumber, setTankNumber] = useState('');
   const [supervisor, setSupervisor] = useState('');
@@ -52,20 +54,6 @@ const NewTankForm: React.FC = () => {
       {error && (
         <div className="mb-4 p-4 text-sm text-red-800 bg-red-100 border border-red-200 rounded-lg">
           {decodeURIComponent(error)}
-        </div>
-      )}
-
-      {showSuccessModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-lg">
-            <p className="text-green-600 text-lg">مخزن جدید با موفقیت ثبت شد</p>
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              بستن
-            </button>
-          </div>
         </div>
       )}
 
@@ -302,6 +290,15 @@ const NewTankForm: React.FC = () => {
           ثبت
         </button>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <SuccessErrorModal
+          title=""
+          message="مخزن جدید با موفقیت ثبت شد"
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
     </form>
   );
 };
