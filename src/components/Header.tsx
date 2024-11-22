@@ -15,7 +15,7 @@ import {
 } from 'react-icons/fa';
 import { useSidebar } from '../hooks/useSidebar';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import LogoutButton from './LogoutButton';
 interface HeaderProps {
   username: string;
@@ -34,8 +34,26 @@ const Header: React.FC<HeaderProps> = ({
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setMounted(true);
+    // Add a click event listener to close the dropdown when clicking outside
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(false); // Close the menu if click is outside
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      // Clean up the event listener on component unmount
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
 
   const toggleTheme = () => {
@@ -43,6 +61,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   if (!mounted) return null; // Ensures the component loads correctly with SSR
+
   const handleToggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
@@ -101,7 +120,10 @@ const Header: React.FC<HeaderProps> = ({
         </div>
         {/* Dropdown Menu */}
         {isMenuOpen && (
-          <div className="absolute top-16 left-0 bg-white dark:bg-gray-700 rounded-lg shadow-custom py-4 z-900 w-48 mt-1 ml-1">
+          <div
+            ref={dropdownRef}
+            className="absolute top-16 left-0 bg-white dark:bg-gray-700 rounded-lg shadow-custom py-4 z-900 w-48 mt-1 ml-1"
+          >
             <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-4 pb-2">
               خوش آمدید !
             </p>
