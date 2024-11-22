@@ -20,6 +20,16 @@ const Sidebar: React.FC = () => {
   const [isListsOpen, setIsListsOpen] = useState(false);
   const pathname = usePathname();
 
+  const handleMenuClick = () => {
+    const isMobileViewport = window.matchMedia(
+      '(min-width: 300px) and (max-width: 768px)'
+    ).matches;
+
+    if (isMobileViewport) {
+      if (!isSidebarExpanded) return; // Do nothing if already collapsed
+      toggleSidebar(); // Collapse the sidebar
+    }
+  };
   // Manage the expanded state of dropdowns based on the current route
   useEffect(() => {
     if (pathname.startsWith('/dashboard/forms')) {
@@ -43,7 +53,7 @@ const Sidebar: React.FC = () => {
       <div
         className={`sticky inset-y-0 right-0 bg-gray-800 dark:bg-gray-700 text-gray-200 dark:text-gray-300 transition-all duration-300 ${
           isSidebarExpanded ? 'w-64 smMobile:w-64' : 'w-16 smMobile:w-0'
-        } h-screen flex flex-col smMobile:absolute smMobile:z-30`}
+        } h-screen flex flex-col smMobile:fixed smMobile:overflow-y-auto smMobile:z-30`}
       >
         {/* Sidebar Header for Small Screens */}
         <header
@@ -71,6 +81,7 @@ const Sidebar: React.FC = () => {
           {/* Home Menu Item */}
           <Link href="/dashboard">
             <button
+              onClick={handleMenuClick}
               className={`flex items-center p-5 hover:bg-gray-700 w-full text-right ${isSidebarExpanded ? 'smMobile:flex' : 'smMobile:hidden'}`}
             >
               <FaHome size={20} />
@@ -111,7 +122,10 @@ const Sidebar: React.FC = () => {
             {isFormsOpen && isSidebarExpanded && (
               <div className="pr-8">
                 <Link href="/dashboard/forms/new-tank">
-                  <button className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left ">
+                  <button
+                    onClick={handleMenuClick}
+                    className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left "
+                  >
                     <span
                       className={`${
                         isActive('/dashboard/forms/new-tank')
@@ -153,7 +167,10 @@ const Sidebar: React.FC = () => {
             {isListsOpen && isSidebarExpanded && (
               <div className="pr-8">
                 <Link href="/dashboard/lists/tanks-list">
-                  <button className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left ">
+                  <button
+                    onClick={handleMenuClick}
+                    className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left "
+                  >
                     <span
                       className={`${
                         isActive('/dashboard/lists/tanks-list')
@@ -177,7 +194,7 @@ const Sidebar: React.FC = () => {
         onClick={toggleSidebar}
         className={`${
           isSidebarExpanded ? 'smMobile:block' : ''
-        } hidden absolute z-20 bg-gray-700 opacity-30 h-screen left-0 w-full`}
+        } hidden absolute z-20 smMobile:fixed bg-gray-700 opacity-30 h-screen left-0 w-full`}
       ></div>
     </>
   );
