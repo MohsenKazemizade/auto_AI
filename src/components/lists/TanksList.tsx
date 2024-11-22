@@ -62,6 +62,7 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
   };
 
   const columns = [
+    { key: 'tablerowcount', label: 'ردیف', sortable: false, primary: true },
     { key: 'Supervisor', label: 'کرییر', sortable: true, primary: true },
     { key: 'TankOwner', label: 'صاحب مخزن', sortable: true, primary: true },
     { key: 'TankNumber', label: 'شماره مخزن', sortable: true, primary: true },

@@ -18,13 +18,13 @@ const SystemMessageModal: React.FC<SystemMessageModalProps> = ({
 }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div className="dark:bg-gray-700 bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
         <h2 className="text-xl font-bold mb-4">{title}</h2>
-        <p className="text-gray-700 mb-6">{message}</p>
+        <p className="text-gray-700 mb-6 dark:text-gray-100">{message}</p>
         <div className="flex justify-between">
           <button
             onClick={onCancel}
-            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 dark:bg-slate-800 dark:hover:bg-gray-600"
           >
             خیر
           </button>

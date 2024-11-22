@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { paginateData, sortData, filterData } from '../actions/tableActions';
 import { FaChevronDown, FaChevronUp, FaTimes } from 'react-icons/fa';
+
 interface Column {
   key: string;
   label: string;
@@ -33,9 +34,17 @@ const Table: React.FC<TableProps> = ({
   const [expandedRows, setExpandedRows] = useState<{ [key: string]: boolean }>(
     {}
   );
+
   const filteredData = filterData(data, searchTerm);
   const sortedData = sortData(filteredData, sortKey, sortOrder);
-  const paginatedData = paginateData(sortedData, currentPage, itemsPerPage);
+
+  // Inject row count dynamically based on pagination
+  const paginatedData = paginateData(sortedData, currentPage, itemsPerPage).map(
+    (row, index) => ({
+      ...row,
+      tablerowcount: (currentPage - 1) * itemsPerPage + index + 1,
+    })
+  );
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
@@ -47,6 +56,7 @@ const Table: React.FC<TableProps> = ({
       setSortOrder('asc');
     }
   };
+
   const toggleRowExpand = (rowId: string) => {
     setExpandedRows((prev) => ({
       ...prev,
@@ -83,10 +93,9 @@ const Table: React.FC<TableProps> = ({
       {/* Responsive wrapper */}
       <div className="overflow-x-auto">
         <table className="w-full smMobile:text-xs md:text-xs text-sm dark:bg-slate-800">
-          <thead className="">
-            <tr className="bg-gray-100  dark:bg-slate-600">
-              {/* Expand/Collapse Icon Header (visible only for smMobile) */}
-              <th className="border border-gray-300 dark:border-gray-500 p-2 smMobile:table-cell hidden  ">
+          <thead>
+            <tr className="bg-gray-100 dark:bg-slate-600">
+              <th className="border border-gray-300 dark:border-gray-500 p-2 smMobile:table-cell hidden">
                 +
               </th>
               {columns.map((column) => (
@@ -103,7 +112,6 @@ const Table: React.FC<TableProps> = ({
                     (sortOrder === 'asc' ? '▲' : '▼')}
                 </th>
               ))}
-              {/* Keep عملیات column always visible */}
               {actions && (
                 <th className="border border-gray-300 dark:border-gray-500 p-2">
                   عملیات
@@ -121,7 +129,7 @@ const Table: React.FC<TableProps> = ({
                     <td className="border border-gray-300 dark:border-gray-500 p-2 text-center smMobile:table-cell hidden">
                       <button
                         onClick={() => toggleRowExpand(row.TankNumber)}
-                        className=" hover:text-blue-700"
+                        className="hover:text-blue-700"
                       >
                         {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
                       </button>
@@ -138,17 +146,14 @@ const Table: React.FC<TableProps> = ({
                           : row[column.key] || '-'}
                       </td>
                     ))}
-                    {/* Always display عملیات */}
                     {actions && (
                       <td className="border border-gray-300 dark:border-gray-500 p-2">
                         {actions(row)}
                       </td>
                     )}
                   </tr>
-
-                  {/* Expanded Row for Non-Primary Columns (visible only for smMobile) */}
                   {isExpanded && (
-                    <tr className="border border-gray-300 dark:border-gray-500 bg-gdray-50 dark:bg-slate-800 smMobile:table-row hidden">
+                    <tr className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 smMobile:table-row hidden">
                       <td colSpan={columns.length + 2}>
                         <div className="p-2">
                           {columns
