@@ -8,9 +8,9 @@ import {
   FaMoon,
   FaSun,
   FaUser,
-  FaCog,
-  FaHeadset,
-  FaLock,
+  // FaCog,
+  // FaHeadset,
+  // FaLock,
   // FaSignOutAlt,
 } from 'react-icons/fa';
 import { useSidebar } from '../hooks/useSidebar';
