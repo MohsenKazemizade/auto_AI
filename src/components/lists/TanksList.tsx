@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '../Table';
 import CardView from '../CardView';
 import { deleteTank } from '@/actions/tankActions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import EditModal from './EditModal';
 import { updateTank } from '@/actions/tankActions';
+import SystemMessageModal from '@/components/modals/SystemMessageModal';
+import SuccessErrorModal from '../modals/SuccessErrorModal';
 interface Tank {
   TankNumber: string;
   TankOwner: string;
@@ -21,10 +23,24 @@ interface Tank {
 export default function TanksList({ tanks }: { tanks: Tank[] }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [editingTank, setEditingTank] = useState<Tank | null>(null);
+
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [selectedTankNumber, setSelectedTankNumber] = useState<string | null>(
+    null
+  );
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
   const success = searchParams.get('success');
   const router = useRouter();
+
+  useEffect(() => {
+    if (success) {
+      setShowSuccessModal(true);
+    }
+  }, [success]);
 
   const formatPersianDate = (date: string, includeTime = false) => {
     if (!date) return '-';
@@ -86,11 +102,15 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
   ];
 
   const handleDelete = async (TankNumber: string) => {
-    if (confirm('آیا مطمئن هستید که می‌خواهید این مخزن را حذف کنید؟')) {
-      deleteTank(TankNumber);
-    }
+    setSelectedTankNumber(TankNumber);
+    setConfirmModalVisible(true);
   };
-
+  const handleConfirmDelete = async () => {
+    if (selectedTankNumber) {
+      deleteTank(selectedTankNumber);
+    }
+    setConfirmModalVisible(false);
+  };
   const handleEditClick = (row: Tank) => {
     setEditingTank(row);
     setModalVisible(true);
@@ -106,7 +126,15 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
   return (
     <CardView title="لیست مخازن">
       {error && <p className="text-red-500">خطا: {error}</p>}
-      {success && <p className="text-green-500">عملیات با موفقیت انجام شد.</p>}
+
+      {showSuccessModal && (
+        <SuccessErrorModal
+          isSuccess={true}
+          title="حذف مخزن"
+          message="مخزن مورد نظر با موفقیت حذف شد"
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
       <Table
         columns={columns}
         data={tanks}
@@ -171,6 +199,15 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
               required: false,
             },
           }}
+        />
+      )}
+
+      {confirmModalVisible && (
+        <SystemMessageModal
+          title="حذف مخزن"
+          message="آیا مطمئن هستید که می‌خواهید این مخزن را حذف کنید؟"
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setConfirmModalVisible(false)}
         />
       )}
     </CardView>

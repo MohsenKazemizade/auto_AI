@@ -32,7 +32,7 @@ const SuccessErrorModal: React.FC<SuccessErrorModalProps> = ({
             onClick={onClose}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
-            Close
+            بستن
           </button>
         </div>
       </div>

@@ -16,7 +16,6 @@ const SystemMessageModal: React.FC<SystemMessageModalProps> = ({
   onConfirm,
   onCancel,
 }) => {
-  console.log('lol');
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
@@ -27,13 +26,13 @@ const SystemMessageModal: React.FC<SystemMessageModalProps> = ({
             onClick={onCancel}
             className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
           >
-            No
+            خیر
           </button>
           <button
             onClick={onConfirm}
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
-            Yes
+            بله
           </button>
         </div>
       </div>
