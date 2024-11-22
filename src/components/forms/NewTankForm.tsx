@@ -201,10 +201,11 @@ const NewTankForm: React.FC = () => {
               شماره تماس راننده
             </label>
             <input
+              dir="ltr"
               type="number"
               id="DriverPhoneNumber"
               name="DriverPhoneNumber"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
+              className=" mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={driverPhoneNumber}
               onChange={(e) => setDriverPhoneNumber(e.target.value)}
             />
