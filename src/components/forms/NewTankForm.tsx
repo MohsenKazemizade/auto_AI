@@ -70,7 +70,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="TankOwner"
               name="TankOwner"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={tankOwner}
               onChange={(e) => setTankOwner(e.target.value)}
             />
@@ -87,7 +87,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="TankNumber"
               name="TankNumber"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={tankNumber}
               onChange={(e) => setTankNumber(e.target.value)}
             />
@@ -103,7 +103,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="Supervisor"
               name="Supervisor"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={supervisor}
               onChange={(e) => setSupervisor(e.target.value)}
             />
@@ -120,7 +120,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="PsiTest"
               name="PsiTest"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={psiTest}
               readOnly
             />
@@ -152,7 +152,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="WhiteTest"
               name="WhiteTest"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={whiteTest}
               readOnly
             />
@@ -188,7 +188,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="DriverFullName"
               name="DriverFullName"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={driverFullName}
               onChange={(e) => setDriverFullName(e.target.value)}
             />
@@ -204,7 +204,7 @@ const NewTankForm: React.FC = () => {
               type="number"
               id="DriverPhoneNumber"
               name="DriverPhoneNumber"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={driverPhoneNumber}
               onChange={(e) => setDriverPhoneNumber(e.target.value)}
             />
@@ -221,7 +221,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="DriverLisenceNumber"
               name="DriverLisenceNumber"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={driverLisenceNumber}
               onChange={(e) => setDriverLisenceNumber(e.target.value)}
             />
@@ -242,7 +242,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="TruckPlateNumber"
               name="TruckPlateNumber"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={truckPlateNumber}
               onChange={(e) => setTruckPlateNumber(e.target.value)}
             />
@@ -258,7 +258,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="TruckTransitNumber"
               name="TruckTransitNumber"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={truckTransitNumber}
               onChange={(e) => setTruckTransitNumber(e.target.value)}
             />
@@ -274,7 +274,7 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="TruckCaputageCompany"
               name="TruckCaputageCompany"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
               value={truckCaputageCompany}
               onChange={(e) => setTruckCaputageCompany(e.target.value)}
             />
