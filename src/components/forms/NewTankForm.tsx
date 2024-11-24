@@ -8,6 +8,7 @@ import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import Icon from 'react-multi-date-picker/components/icon';
 import SuccessErrorModal from '../modals/SuccessErrorModal';
+import { FaTimes } from 'react-icons/fa';
 
 const NewTankForm: React.FC = () => {
   const searchParams = useSearchParams();
@@ -48,6 +49,14 @@ const NewTankForm: React.FC = () => {
       resetForm();
     }
   }, [success]);
+
+  const clearPsiTest = () => {
+    setPsiTest('');
+  };
+
+  const clearWhiteTest = () => {
+    setWhiteTest('');
+  };
 
   return (
     <form className="flex flex-col gap-4" action={handleSubmitNewTank}>
@@ -120,10 +129,20 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="PsiTest"
               name="PsiTest"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-right dark:text-gray-800"
               value={psiTest}
               readOnly
             />
+            <div className="relative">
+              {psiTest && (
+                <button
+                  onClick={clearPsiTest}
+                  className="px-4 absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
+                >
+                  <FaTimes />
+                </button>
+              )}
+            </div>
             <div className="flex flex-row ml-1 items-center text-gray-800 dark:text-gray-200">
               <DatePicker
                 render={<Icon />}
@@ -152,10 +171,20 @@ const NewTankForm: React.FC = () => {
               type="text"
               id="WhiteTest"
               name="WhiteTest"
-              className="mt-1 block w-full border border-gray-300 rounded-md text-left dark:text-gray-800"
+              className="mt-1 block w-full border border-gray-300 rounded-md text-right dark:text-gray-800"
               value={whiteTest}
               readOnly
             />
+            <div className="relative">
+              {whiteTest && (
+                <button
+                  onClick={clearWhiteTest}
+                  className="px-4 absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
+                >
+                  <FaTimes />
+                </button>
+              )}
+            </div>
             <div className="flex flex-row ml-1 items-center text-gray-800 dark:text-gray-200">
               <DatePicker
                 render={<Icon />}

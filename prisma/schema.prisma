@@ -15,7 +15,6 @@ model AsaUser {
   Owner              String?  @map("Owner")
   PhoneNumber        String?  @map("PhoneNumber")
   SubmitDate         DateTime @map("SubmitDate")
-  SubmitTime         DateTime @map("SubmitTime")
   RepresentativeCode String?  @map("RepresentativeCode")
 
   @@map("asa_users") 
