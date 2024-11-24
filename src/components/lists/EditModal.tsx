@@ -29,16 +29,24 @@ const EditModal: React.FC<EditModalProps> = ({
   inputTypes,
 }) => {
   const [formData, setFormData] = useState<Record<string, any>>(data);
-  const [psiTest, setPsiTest] = useState(
-    new DateObject(data.PsiTest)
-      .convert(persian, persian_fa)
-      .format('YYYY/MM/DD') || ''
-  );
-  const [whiteTest, setWhiteTest] = useState(
-    new DateObject(data.WhiteTest)
-      .convert(persian, persian_fa)
-      .format('YYYY/MM/DD') || ''
-  );
+  const [psiTest, setPsiTest] = useState(() => {
+    if (data.psiTest) {
+      return (
+        new DateObject(data.PsiTest)
+          .convert(persian, persian_fa)
+          .format('YYYY/MM/DD') || ''
+      );
+    }
+  });
+  const [whiteTest, setWhiteTest] = useState(() => {
+    if (data.whiteTest) {
+      return (
+        new DateObject(data.WhiteTest)
+          .convert(persian, persian_fa)
+          .format('YYYY/MM/DD') || ''
+      );
+    }
+  });
 
   if (!isOpen) return null;
 
@@ -48,7 +56,7 @@ const EditModal: React.FC<EditModalProps> = ({
 
   const handleSubmit = () => {
     console.log({ ...formData, PsiTest: psiTest, WhiteTest: whiteTest });
-    onSubmit({ ...formData, PsiTest: psiTest, WhiteTest: whiteTest });
+    // onSubmit({ ...formData, PsiTest: psiTest, WhiteTest: whiteTest });
   };
 
   return (
