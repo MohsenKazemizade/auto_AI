@@ -5,9 +5,9 @@ import { SidebarProvider } from '../../contexts/SidebarContext';
 import { getSession } from '../../actions/sessionActions';
 import { redirect } from 'next/navigation';
 
-export const metadata = {
-  title: 'Dashboard',
-};
+// export const metadata = {
+//   title: 'Dashboard',
+// };
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getSession();
