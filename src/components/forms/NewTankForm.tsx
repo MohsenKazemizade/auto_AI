@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import CardView from '../CardView';
 import { handleSubmitNewTank } from '../../actions/tankActions';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import DatePicker, { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
@@ -14,7 +14,7 @@ const NewTankForm: React.FC = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
   const success = searchParams.get('success');
-
+  const router = useRouter();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const [tankOwner, setTankOwner] = useState('');
@@ -58,6 +58,10 @@ const NewTankForm: React.FC = () => {
     setWhiteTest('');
   };
 
+  const closeSuccessModal = () => {
+    router.replace('/dashboard/forms/new-tank');
+    setShowSuccessModal(false);
+  };
   return (
     <form className="flex flex-col gap-4" action={handleSubmitNewTank}>
       {error && (
@@ -326,7 +330,7 @@ const NewTankForm: React.FC = () => {
         <SuccessErrorModal
           title=""
           message="مخزن جدید با موفقیت ثبت شد"
-          onClose={() => setShowSuccessModal(false)}
+          onClose={closeSuccessModal}
         />
       )}
     </form>
