@@ -5,7 +5,7 @@ import DatePicker, { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import Icon from 'react-multi-date-picker/components/icon';
-
+import { FaTimes } from 'react-icons/fa';
 interface EditModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -58,6 +58,14 @@ const EditModal: React.FC<EditModalProps> = ({
     onSubmit({ ...formData, PsiTest: psiTest, WhiteTest: whiteTest });
   };
 
+  const clearPsiTest = () => {
+    setPsiTest('');
+  };
+
+  const clearWhiteTest = () => {
+    setWhiteTest('');
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md 2xl:max-w-2xl smMobile:max-w-xs dark:bg-gray-700">
@@ -87,6 +95,24 @@ const EditModal: React.FC<EditModalProps> = ({
                         value={key === 'PsiTest' ? psiTest : whiteTest}
                         readOnly
                       />
+                      <div className="relative">
+                        {key === 'PsiTest' && psiTest && (
+                          <button
+                            onClick={clearPsiTest}
+                            className="px-4 absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
+                          >
+                            <FaTimes />
+                          </button>
+                        )}
+                        {key === 'WhiteTest' && whiteTest && (
+                          <button
+                            onClick={clearWhiteTest}
+                            className="px-4 absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-800"
+                          >
+                            <FaTimes />
+                          </button>
+                        )}
+                      </div>
                       <div className="flex flex-row items-center text-gray-800 dark:text-gray-200">
                         <DatePicker
                           render={<Icon />}
