@@ -29,18 +29,23 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
     null
   );
 
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+  const [showEditSuccessModal, setShowEditSuccessModal] = useState(false);
 
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
-  const success = searchParams.get('success');
+  const deletesuccess = searchParams.get('deleteSuccess');
+  const editsuccess = searchParams.get('editSuccess');
   const router = useRouter();
 
   useEffect(() => {
-    if (success) {
-      setShowSuccessModal(true);
+    if (deletesuccess) {
+      setShowDeleteSuccessModal(true);
     }
-  }, [success]);
+    if (editsuccess) {
+      setShowEditSuccessModal(true);
+    }
+  }, [deletesuccess, editsuccess]);
 
   const formatPersianDate = (date: string, includeTime = false) => {
     if (!date) return '-';
@@ -106,12 +111,14 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
     setSelectedTankNumber(TankNumber);
     setConfirmModalVisible(true);
   };
+
   const handleConfirmDelete = async () => {
     if (selectedTankNumber) {
       deleteTank(selectedTankNumber);
     }
     setConfirmModalVisible(false);
   };
+
   const handleEditClick = (row: Tank) => {
     setEditingTank(row);
     setModalVisible(true);
@@ -119,21 +126,38 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
 
   const handleUpdate = async (updatedData: Record<string, any>) => {
     if (editingTank) {
-      await updateTank(editingTank.TankNumber, updatedData);
+      updateTank(editingTank.TankNumber, updatedData);
       setModalVisible(false);
-      router.replace('/dashboard/lists/tanks-list?success=true');
     }
+  };
+
+  const closeEditModal = () => {
+    router.replace('/dashboard/lists/tanks-list');
+    setShowEditSuccessModal(false);
+  };
+
+  const closeDeleteModal = () => {
+    router.replace('/dashboard/lists/tanks-list');
+    setShowDeleteSuccessModal(false);
   };
   return (
     <CardView title="لیست مخازن">
       {error && <p className="text-red-500">خطا: {error}</p>}
 
-      {showSuccessModal && (
+      {showDeleteSuccessModal && (
         <SuccessErrorModal
           isSuccess={true}
           title="حذف مخزن"
           message="مخزن مورد نظر با موفقیت حذف شد"
-          onClose={() => setShowSuccessModal(false)}
+          onClose={closeDeleteModal}
+        />
+      )}
+      {showEditSuccessModal && (
+        <SuccessErrorModal
+          isSuccess={true}
+          title="ویرایش مخزن"
+          message="مخزن مورد نظر با موفقیت ویرایش شد"
+          onClose={closeEditModal}
         />
       )}
       <Table

@@ -122,7 +122,7 @@ export const deleteTank = async (TankNumber: string) => {
     where: { TankNumber },
   });
 
-  redirect(`/dashboard/lists/tanks-list?success=true`);
+  redirect(`/dashboard/lists/tanks-list?deleteSuccess=true`);
 };
 
 export const updateTank = async (
@@ -160,5 +160,5 @@ export const updateTank = async (
     data,
   });
 
-  redirect(`/dashboard/lists/tanks-list?success=true`);
+  redirect(`/dashboard/lists/tanks-list?editSuccess=true`);
 };
