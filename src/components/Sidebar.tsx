@@ -9,6 +9,7 @@ import {
   FaWpforms,
   FaListAlt,
 } from 'react-icons/fa';
+import { GiFuelTank } from 'react-icons/gi';
 // import LogoutButton from './LogoutButton';
 import Link from 'next/link';
 import { useSidebar } from '../hooks/useSidebar';
@@ -30,6 +31,7 @@ const Sidebar: React.FC = () => {
       toggleSidebar(); // Collapse the sidebar
     }
   };
+  // const handleMenuIconClicked = () => {};
   // Manage the expanded state of dropdowns based on the current route
   useEffect(() => {
     if (pathname.startsWith('/dashboard/forms')) {
@@ -46,7 +48,8 @@ const Sidebar: React.FC = () => {
     }
   }, [pathname]);
 
-  const isActive = (route: string) => pathname === route;
+  const isActiveHome = (route: string) => pathname === route;
+  const isActive = (route: string) => pathname.startsWith(route);
 
   return (
     <>
@@ -64,7 +67,7 @@ const Sidebar: React.FC = () => {
           <img
             src="/images/asaLogo.png"
             alt="Profile"
-            className={`w-14 h-14 rounded-full ${
+            className={`w-20 h-20 rounded-full ${
               isSidebarExpanded ? 'block' : 'hidden'
             }`}
           />
@@ -84,11 +87,26 @@ const Sidebar: React.FC = () => {
               onClick={handleMenuClick}
               className={`flex items-center p-5 hover:bg-gray-700 w-full text-right ${isSidebarExpanded ? 'smMobile:flex' : 'smMobile:hidden'}`}
             >
-              <FaHome size={20} />
+              <FaHome
+                size={20}
+                className={`${
+                  !isSidebarExpanded && isActiveHome('/dashboard')
+                    ? 'text-blue-600'
+                    : ''
+                } ${isActiveHome('/dashboard') ? 'text-blue-600' : ''}`}
+                onClick={() => {
+                  if (!isSidebarExpanded) {
+                    toggleSidebar();
+                    handleMenuClick();
+                  } else {
+                    handleMenuClick();
+                  }
+                }}
+              />
               <span
                 className={`mr-4 flex-grow ${
                   isSidebarExpanded ? 'block' : 'hidden'
-                } ${isActive('/dashboard') ? 'text-blue-600' : ''}`}
+                } ${isActiveHome('/dashboard') ? 'text-blue-600' : ''}`}
               >
                 خانه
               </span>
@@ -102,7 +120,22 @@ const Sidebar: React.FC = () => {
                 isFormsOpen ? 'bg-gray-700' : ''
               } ${isSidebarExpanded ? 'smMobile:flex' : 'smMobile:hidden'}`}
             >
-              <FaWpforms size={20} />
+              <FaWpforms
+                size={20}
+                className={`${
+                  !isSidebarExpanded && isActive('/dashboard/forms')
+                    ? 'text-blue-600'
+                    : ''
+                }`}
+                onClick={() => {
+                  if (!isSidebarExpanded) {
+                    toggleSidebar();
+                    setIsFormsOpen(!isFormsOpen);
+                  } else {
+                    setIsFormsOpen(!isFormsOpen);
+                  }
+                }}
+              />
               <span
                 className={`mr-4 flex-grow ${
                   isSidebarExpanded ? 'block' : 'hidden'
@@ -126,8 +159,16 @@ const Sidebar: React.FC = () => {
                     onClick={handleMenuClick}
                     className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left "
                   >
-                    <span
+                    <GiFuelTank
+                      size={20}
                       className={`${
+                        isActive('/dashboard/forms/new-tank')
+                          ? 'text-blue-600'
+                          : ''
+                      }`}
+                    />
+                    <span
+                      className={`mr-4 ${
                         isActive('/dashboard/forms/new-tank')
                           ? 'text-blue-600'
                           : ''
@@ -147,7 +188,22 @@ const Sidebar: React.FC = () => {
                 isListsOpen ? 'bg-gray-700' : ''
               } ${isSidebarExpanded ? 'smMobile:flex' : 'smMobile:hidden'}`}
             >
-              <FaListAlt size={20} />
+              <FaListAlt
+                size={20}
+                className={`${
+                  !isSidebarExpanded && isActive('/dashboard/lists')
+                    ? 'text-blue-600'
+                    : ''
+                }`}
+                onClick={() => {
+                  if (!isSidebarExpanded) {
+                    toggleSidebar();
+                    setIsListsOpen(!isListsOpen);
+                  } else {
+                    setIsListsOpen(!isListsOpen);
+                  }
+                }}
+              />
               <span
                 className={`mr-4 flex-grow ${
                   isSidebarExpanded ? 'block' : 'hidden'
@@ -171,8 +227,16 @@ const Sidebar: React.FC = () => {
                     onClick={handleMenuClick}
                     className="flex items-center p-2 text-gray-400 hover:text-gray-200 w-full text-left "
                   >
-                    <span
+                    <GiFuelTank
+                      size={20}
                       className={`${
+                        isActive('/dashboard/lists/tanks-list')
+                          ? 'text-blue-600'
+                          : ''
+                      }`}
+                    />
+                    <span
+                      className={`mr-4 ${
                         isActive('/dashboard/lists/tanks-list')
                           ? 'text-blue-600'
                           : ''

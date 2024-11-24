@@ -5,14 +5,15 @@
 import {
   FaBars,
   FaTimes,
-  FaMoon,
-  FaSun,
   FaUser,
+  // FaMoon,
   // FaCog,
   // FaHeadset,
   // FaLock,
   // FaSignOutAlt,
 } from 'react-icons/fa';
+import { MdOutlineWbSunny } from 'react-icons/md';
+import { LuMoon } from 'react-icons/lu';
 import { useSidebar } from '../hooks/useSidebar';
 import { useTheme } from 'next-themes';
 import { useEffect, useState, useRef } from 'react';
@@ -85,7 +86,11 @@ const Header: React.FC<HeaderProps> = ({
             onClick={toggleTheme}
             className="text-gray-600 dark:text-gray-300 hover:text-gray-200 hover:dark:text-gray-500"
           >
-            {theme === 'dark' ? <FaSun size={18} /> : <FaMoon size={18} />}
+            {theme === 'dark' ? (
+              <MdOutlineWbSunny size={18} />
+            ) : (
+              <LuMoon size={18} />
+            )}
           </button>
         </div>
         {/* Notification bell */}

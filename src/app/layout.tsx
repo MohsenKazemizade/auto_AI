@@ -2,7 +2,7 @@
 import '../styles/globals.css';
 import { ThemeProvider } from 'next-themes';
 export const metadata = {
-  title: 'آسا مسیر ناوگان',
+  title: 'آسامسیر ناوگان',
   description: 'A description for SEO and social media',
   icons: {
     icon: [
