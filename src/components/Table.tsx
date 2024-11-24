@@ -95,7 +95,7 @@ const Table: React.FC<TableProps> = ({
         <table className="w-full smMobile:text-xs md:text-xs text-sm dark:bg-slate-800">
           <thead>
             <tr className="bg-gray-100 dark:bg-slate-600">
-              <th className="border border-gray-300 dark:border-gray-500 p-2 smMobile:table-cell hidden">
+              <th className="border border-gray-300 dark:border-gray-500 p-2 smMobile:table-cell md:table-cell lg:table-cell hidden">
                 +
               </th>
               {columns.map((column) => (
@@ -103,7 +103,7 @@ const Table: React.FC<TableProps> = ({
                   key={column.key}
                   className={`border border-gray-300 dark:border-gray-500 p-2 ${
                     column.sortable ? 'cursor-pointer' : ''
-                  } smMobile:${!column.primary ? 'hidden' : 'table-cell'}`}
+                  } ${!column.primary ? 'smMobile:hidden md:hidden lg:hidden' : 'smMobile:table-cell md:table-cell lg:table-cell'}`}
                   onClick={() => column.sortable && handleSort(column.key)}
                 >
                   {column.label}{' '}
@@ -126,7 +126,7 @@ const Table: React.FC<TableProps> = ({
                 <>
                   <tr key={row.TankNumber} className="text-center">
                     {/* Expand/Collapse Icon (visible only for smMobile) */}
-                    <td className="border border-gray-300 dark:border-gray-500 p-2 text-center smMobile:table-cell hidden">
+                    <td className="border border-gray-300 dark:border-gray-500 p-2 text-center smMobile:table-cell md:table-cell lg:table-cell hidden">
                       <button
                         onClick={() => toggleRowExpand(row.TankNumber)}
                         className="hover:text-blue-700"
@@ -137,7 +137,9 @@ const Table: React.FC<TableProps> = ({
                     {columns.map((column) => (
                       <td
                         key={column.key}
-                        className={`border border-gray-300 dark:border-gray-500 p-2 smMobile:${
+                        className={`border border-gray-300 dark:border-gray-500 p-2  smMobile:${
+                          !column.primary ? 'hidden' : 'table-cell'
+                        } md:${!column.primary ? 'hidden' : 'table-cell'} lg:${
                           !column.primary ? 'hidden' : 'table-cell'
                         }`}
                       >
@@ -153,7 +155,7 @@ const Table: React.FC<TableProps> = ({
                     )}
                   </tr>
                   {isExpanded && (
-                    <tr className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 smMobile:table-row hidden">
+                    <tr className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 smMobile:table-row md:table-row lg:table-row hidden">
                       <td colSpan={columns.length + 2}>
                         <div className="p-2">
                           {columns

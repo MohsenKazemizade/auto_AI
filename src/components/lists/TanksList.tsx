@@ -85,6 +85,12 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
       primary: false,
       formatter: (value: string) => formatPersianDate(value),
     },
+    {
+      key: 'TruckCaputageCompany',
+      label: 'کاپوتاژ',
+      sortable: true,
+      primary: false,
+    },
     { key: 'DriverFullName', label: 'راننده', sortable: true, primary: false },
     {
       key: 'DriverPhoneNumber',
@@ -93,8 +99,20 @@ export default function TanksList({ tanks }: { tanks: Tank[] }) {
       primary: false,
     },
     {
+      key: 'DriverLisenceNumber',
+      label: 'شماره گواهینامه راننده',
+      sortable: true,
+      primary: false,
+    },
+    {
       key: 'TruckPlateNumber',
       label: 'شماره پلاک',
+      sortable: true,
+      primary: false,
+    },
+    {
+      key: 'TruckTransitNumber',
+      label: 'پلاک ترانزیت',
       sortable: true,
       primary: false,
     },
