@@ -1,6 +1,6 @@
 'use server';
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Tanks } from '@prisma/client';
 import { redirect } from 'next/navigation';
 import { getSession } from '../actions/sessionActions';
 import { DateObject } from 'react-multi-date-picker';
@@ -9,22 +9,7 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import { Prisma } from '@prisma/client';
 
 const prisma = new PrismaClient();
-interface TankResponse {
-  ID: string;
-  TankNumber: string;
-  TankOwner: string;
-  TruckPlateNumber: string | null;
-  TruckTransitNumber: string | null;
-  TruckCaputageCompany: string | null;
-  DriverFullName: string | null;
-  DriverLisenceNumber: string | null;
-  DriverPhoneNumber: string | null;
-  PsiTest: string | null;
-  WhiteTest: string | null;
-  Supervisor: string | null;
-  Creator: string;
-  SubmitDateTime: string;
-}
+
 // Helper function to convert Persian date string to JavaScript Date object or return null if empty
 const parsePersianDate = (dateString: string): Date | null => {
   if (!dateString || dateString.trim() === '') return null;
@@ -37,27 +22,12 @@ const parsePersianDate = (dateString: string): Date | null => {
   return dateObject.toDate();
 };
 // Fetch all tanks from the database
-export const getTanks = async (): Promise<TankResponse[]> => {
+export const getTanks = async (): Promise<Tanks[]> => {
   const tanks = await prisma.tanks.findMany({
     orderBy: { SubmitDateTime: 'desc' }, // Sort by submission date, newest first
   });
 
-  return tanks.map((tank) => ({
-    ID: tank.ID.toString(),
-    TankNumber: tank.TankNumber,
-    TankOwner: tank.TankOwner,
-    TruckPlateNumber: tank.TruckPlateNumber || null,
-    TruckTransitNumber: tank.TruckTransitNumber || null,
-    TruckCaputageCompany: tank.TruckCaputageCompany || null,
-    DriverFullName: tank.DriverFullName || null,
-    DriverLisenceNumber: tank.DriverLisenceNumber || null,
-    DriverPhoneNumber: tank.DriverPhoneNumber || null,
-    PsiTest: tank.PsiTest ? tank.PsiTest.toISOString() : null, // Convert DateTime to ISO string
-    WhiteTest: tank.WhiteTest ? tank.WhiteTest.toISOString() : null,
-    Supervisor: tank.Supervisor || null,
-    Creator: tank.Creator,
-    SubmitDateTime: tank.SubmitDateTime.toISOString(),
-  }));
+  return tanks;
 };
 
 export const handleSubmitNewTank = async (formData: FormData) => {
@@ -99,13 +69,13 @@ export const handleSubmitNewTank = async (formData: FormData) => {
     redirect(`/dashboard/forms/new-tank?error=${errorMessage}`);
     return;
   }
-
+  let redirectPath: string | null = null;
   try {
     // Try creating the new tank
     await prisma.tanks.create({
       data,
     });
-    redirect('/dashboard/forms/new-tank?success=true');
+    redirectPath = '/dashboard/forms/new-tank?success=true';
   } catch (error) {
     // Handle the uniqueness constraint error
     if (
@@ -121,15 +91,18 @@ export const handleSubmitNewTank = async (formData: FormData) => {
         const errorMessage = encodeURIComponent(
           'این شماره مخزن قبلا ثبت شده است'
         );
-        redirect(`/dashboard/forms/new-tank?error=${errorMessage}`);
+        redirectPath = `/dashboard/forms/new-tank?error=${errorMessage}`;
       }
     } else {
       console.error('Unexpected error:', error);
       const errorMessage = encodeURIComponent(
         'خطایی رخ داد، لطفا مجددا تلاش کنید'
       );
-      redirect(`/dashboard/forms/new-tank?error=${errorMessage}`);
+      redirectPath = `/dashboard/forms/new-tank?error=${errorMessage}`;
     }
+  } finally {
+    //Clear resources
+    if (redirectPath) redirect(redirectPath);
   }
 };
 
