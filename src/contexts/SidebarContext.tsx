@@ -16,12 +16,7 @@ export const SidebarProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   // Initial state based on screen width
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => {
-    if (window.innerWidth >= 1280) {
-      return true;
-    }
-    return false; // Default to closed on the server
-  });
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState<boolean>(false);
 
   const toggleSidebar = () => {
     setIsSidebarExpanded((prev) => !prev); // Always flip the value on toggle
@@ -32,7 +27,7 @@ export const SidebarProvider: React.FC<{ children: ReactNode }> = ({
       if (window.innerWidth < 1280) {
         // If screen width is less than 1280, ensure sidebar is collapsed
         setIsSidebarExpanded((prev) => (prev ? false : prev));
-      } else {
+      } else if (window.innerWidth >= 1280) {
         // If screen width is 1280 or greater, ensure sidebar is expanded
         setIsSidebarExpanded((prev) => (prev ? prev : true));
       }
