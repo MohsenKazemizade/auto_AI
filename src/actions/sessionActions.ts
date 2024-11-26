@@ -34,6 +34,14 @@ export const handleLoginSubmit = async (formData: FormData) => {
 
   if (user && (await bcrypt.compare(password, user.Password))) {
     const session = await getSession();
+
+    if (!session) {
+      const errorMessage = encodeURIComponent(
+        'مشکلی در ورود شما به برنامه رخ داده است. لطفا دوباره وارد شوید!'
+      );
+      redirect(`/login?error=${errorMessage}`);
+      return;
+    }
     session.userId = user.ID.toString();
     session.username = user.UserName;
     session.accesslevel = user.AccessLevel;
