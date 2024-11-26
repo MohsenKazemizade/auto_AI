@@ -1,9 +1,9 @@
 {
+  "app": "asamasirnavgan",
   "port": 3000,
   "build": {
     "before": "npx prisma migrate deploy",
     "location": "iran"
   },
-  "disks": [],
-  "prerender": true
+  "disks": []
 }
