@@ -6,9 +6,25 @@ import { getSession } from '../actions/sessionActions';
 import { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-import { Tanks } from '@prisma/client';
-const prisma = new PrismaClient();
+import { Prisma } from '@prisma/client';
 
+const prisma = new PrismaClient();
+interface TankResponse {
+  ID: string;
+  TankNumber: string;
+  TankOwner: string;
+  TruckPlateNumber: string | null;
+  TruckTransitNumber: string | null;
+  TruckCaputageCompany: string | null;
+  DriverFullName: string | null;
+  DriverLisenceNumber: string | null;
+  DriverPhoneNumber: string | null;
+  PsiTest: string | null;
+  WhiteTest: string | null;
+  Supervisor: string | null;
+  Creator: string;
+  SubmitDateTime: string;
+}
 // Helper function to convert Persian date string to JavaScript Date object or return null if empty
 const parsePersianDate = (dateString: string): Date | null => {
   if (!dateString || dateString.trim() === '') return null;
@@ -21,8 +37,8 @@ const parsePersianDate = (dateString: string): Date | null => {
   return dateObject.toDate();
 };
 // Fetch all tanks from the database
-export const getTanks = async () => {
-  const tanks: Tanks[] = await prisma.tanks.findMany({
+export const getTanks = async (): Promise<TankResponse[]> => {
+  const tanks = await prisma.tanks.findMany({
     orderBy: { SubmitDateTime: 'desc' }, // Sort by submission date, newest first
   });
 
@@ -84,16 +100,36 @@ export const handleSubmitNewTank = async (formData: FormData) => {
     return;
   }
 
-  const existingTank = await prisma.tanks.findUnique({
-    where: { TankNumber: data.TankNumber },
-  });
-
-  if (!existingTank) {
-    await prisma.tanks.create({ data });
+  try {
+    // Try creating the new tank
+    await prisma.tanks.create({
+      data,
+    });
     redirect('/dashboard/forms/new-tank?success=true');
-  } else {
-    const errorMessage = encodeURIComponent('این شماره مخزن قبلا ثبت شده است');
-    redirect(`/dashboard/forms/new-tank?error=${errorMessage}`);
+  } catch (error) {
+    // Handle the uniqueness constraint error
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      const target = error.meta?.target as string[] | string | undefined;
+      if (
+        target &&
+        typeof target === 'string' &&
+        target.includes('TankNumber')
+      ) {
+        const errorMessage = encodeURIComponent(
+          'این شماره مخزن قبلا ثبت شده است'
+        );
+        redirect(`/dashboard/forms/new-tank?error=${errorMessage}`);
+      }
+    } else {
+      console.error('Unexpected error:', error);
+      const errorMessage = encodeURIComponent(
+        'خطایی رخ داد، لطفا مجددا تلاش کنید'
+      );
+      redirect(`/dashboard/forms/new-tank?error=${errorMessage}`);
+    }
   }
 };
 

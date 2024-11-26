@@ -120,11 +120,12 @@ const Table: React.FC<TableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {paginatedData.map((row) => {
+            {paginatedData.map((row, rowIndex) => {
               const isExpanded = expandedRows[row.TankNumber];
+              const uniqueKey = `row-${rowIndex}-${row.TankNumber || 'undefined'}`;
               return (
-                <>
-                  <tr key={row.TankNumber} className="text-center">
+                <React.Fragment key={uniqueKey}>
+                  <tr key={uniqueKey} className="text-center">
                     {/* Expand/Collapse Icon (visible only for smMobile) */}
                     <td className="border border-gray-300 dark:border-gray-500 p-2 text-center smMobile:table-cell md:table-cell lg:table-cell hidden">
                       <button
@@ -136,7 +137,7 @@ const Table: React.FC<TableProps> = ({
                     </td>
                     {columns.map((column) => (
                       <td
-                        key={column.key}
+                        key={`cell-${uniqueKey}-${column.key}`}
                         className={`border border-gray-300 dark:border-gray-500 p-2  smMobile:${
                           !column.primary ? 'hidden' : 'table-cell'
                         } md:${!column.primary ? 'hidden' : 'table-cell'} lg:${
@@ -149,19 +150,28 @@ const Table: React.FC<TableProps> = ({
                       </td>
                     ))}
                     {actions && (
-                      <td className="border border-gray-300 dark:border-gray-500 p-2">
+                      <td
+                        key={`actions-${uniqueKey}`}
+                        className="border border-gray-300 dark:border-gray-500 p-2"
+                      >
                         {actions(row)}
                       </td>
                     )}
                   </tr>
                   {isExpanded && (
-                    <tr className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 smMobile:table-row md:table-row lg:table-row hidden">
+                    <tr
+                      key={`expanded-${uniqueKey}`}
+                      className="border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-slate-800 smMobile:table-row md:table-row lg:table-row hidden"
+                    >
                       <td colSpan={columns.length + 2}>
                         <div className="p-2">
                           {columns
                             .filter((column) => !column.primary)
                             .map((column) => (
-                              <div key={column.key} className="mb-2">
+                              <div
+                                key={`expanded-cell-${uniqueKey}-${column.key}`}
+                                className="mb-2"
+                              >
                                 <strong>{column.label}: </strong>
                                 {column.formatter
                                   ? column.formatter(row[column.key], row)
@@ -172,7 +182,7 @@ const Table: React.FC<TableProps> = ({
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               );
             })}
           </tbody>
