@@ -6,7 +6,7 @@ import { getSession } from '../actions/sessionActions';
 import { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-
+import { Tanks } from '@prisma/client';
 const prisma = new PrismaClient();
 
 // Helper function to convert Persian date string to JavaScript Date object or return null if empty
@@ -22,7 +22,7 @@ const parsePersianDate = (dateString: string): Date | null => {
 };
 // Fetch all tanks from the database
 export const getTanks = async () => {
-  const tanks = await prisma.tanks.findMany({
+  const tanks: Tanks[] = await prisma.tanks.findMany({
     orderBy: { SubmitDateTime: 'desc' }, // Sort by submission date, newest first
   });
 

@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 // Retrieve the session
 export const getSession = async () => {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions);
-  return session;
+  if (session) return session;
 };
 
 // Login form submission action
